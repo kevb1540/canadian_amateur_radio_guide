@@ -1,0 +1,32 @@
+.gradle/
+local.properties
+build/
+app/build/
+*.apk
+*.apk.idsig
+*.log
+
+# Local email recovery secrets and runtime data
+.recovery-venv/
+recovery.env
+recovery_service/*.env
+*.sqlite
+*.sqlite3
+*.sqlite-*
+*.sqlite3-*
+
+# Private signing keys, service credentials and user backups
+*.keystore
+*.jks
+*.p12
+*.pfx
+*.pem
+*.key
+.env
+.env.*
+.dev.vars*
+*.carprog
+__pycache__/
+*.pyc
+node_modules/
+.wrangler/

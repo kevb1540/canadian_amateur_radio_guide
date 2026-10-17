@@ -1,0 +1,50 @@
+{
+  "checked_on": "2026-10-17",
+  "checked_at": "2026-10-17T10:56:24.752871+00:00",
+  "previous_apk": {
+    "package": "ca.kevin.maplewave",
+    "version_code": 238,
+    "version": "2.3.8",
+    "certificate_sha256": "fa5c815a87afdc21b8f7a319f9dc1da676b27e166445049f0977bf1d3990cd74",
+    "permissions": [
+      "android.permission.INTERNET",
+      "android.permission.REQUEST_INSTALL_PACKAGES"
+    ],
+    "min_sdk": 26,
+    "target_sdk": 36
+  },
+  "new_apk": {
+    "package": "ca.kevin.maplewave",
+    "version_code": 239,
+    "version": "2.3.9",
+    "certificate_sha256": "fa5c815a87afdc21b8f7a319f9dc1da676b27e166445049f0977bf1d3990cd74",
+    "permissions": [
+      "android.permission.INTERNET",
+      "android.permission.REQUEST_INSTALL_PACKAGES"
+    ],
+    "min_sdk": 26,
+    "target_sdk": 36
+  },
+  "new_apk_bytes": 2491610,
+  "new_apk_sha256": "38a39bf3945109323b977b4f8c83e83b9cb51039c36b486a8d626f26c693524d",
+  "release_scope": "Fresh signed update build of 2.3.8 functionality; only version metadata changed.",
+  "apk_signature_verified": true,
+  "zip_alignment_verified": true,
+  "bundled_assets_match_source": true,
+  "changed_assets": [
+    "assets/app.js"
+  ],
+  "native_dex_identical_to_2_3_8": true,
+  "matching_header_and_native_icon_pixels": true,
+  "official_question_file_unchanged": true,
+  "teaching_content_file_unchanged": true,
+  "profile_encryption_implementation_unchanged": true,
+  "recovery_service_origin": "https://radio-recovery.kevb1540.workers.dev",
+  "backup_filename_format": "<username>_<YYYY-MM-DD>.carprog",
+  "accepted_import_extensions": [
+    ".carprog"
+  ],
+  "physical_android_installation_tested": false,
+  "native_long_press_tested_on_device": false,
+  "live_email_delivery_tested": false
+}
