@@ -2,7 +2,14 @@
 /* Pure course, quiz and RF calculations. No UI or network dependencies. */
 (function(root){'use strict';
 const C={};
-C.fresh=()=>({schema:2,app:'Maplewave',bank:'ISED Basic 2025-07-15',attempts:[],completed:[],notes:{},personalNotes:[],personalNoteDraft:null,exercises:{},labs:{},labChecks:{},highlights:[],active:null,settings:{language:'en'}});
+C.highlightColours=Object.freeze([
+ {id:'yellow',name:'Yellow',hex:'#fff176'}, {id:'green',name:'Green',hex:'#a5d6a7'},
+ {id:'cyan',name:'Cyan',hex:'#80deea'}, {id:'blue',name:'Blue',hex:'#90caf9'},
+ {id:'purple',name:'Purple',hex:'#ce93d8'}, {id:'pink',name:'Pink',hex:'#f48fb1'},
+ {id:'orange',name:'Orange',hex:'#ffcc80'}, {id:'red',name:'Red',hex:'#ef9a9a'}
+].map(c=>Object.freeze(c)));
+C.highlightColour=id=>C.highlightColours.find(c=>c.id===id)||C.highlightColours[0];
+C.fresh=()=>({schema:2,app:'Maplewave',bank:'ISED Basic 2025-07-15',attempts:[],completed:[],notes:{},personalNotes:[],personalNoteDraft:null,exercises:{},labs:{},labChecks:{},highlights:[],active:null,settings:{language:'en',highlighterColour:'yellow'}});
 C.shuffle=(items,rng=Math.random)=>{const a=items.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(rng()*(i+1));[a[i],a[j]]=[a[j],a[i]];}return a;};
 C.exam=(bank,rng=Math.random)=>{const groups={};bank.forEach(q=>(groups[q.topic]||(groups[q.topic]=[])).push(q));const keys=Object.keys(groups).sort();if(keys.length!==100)throw Error('The Basic bank must contain 100 topic groups.');return C.shuffle(keys.map(k=>groups[k][Math.floor(rng()*groups[k].length)]),rng);};
 C.pool=(bank,chapter)=>chapter==='exam-ready'?bank:bank.filter(q=>q.chapter===chapter);
@@ -21,6 +28,7 @@ C.validateHighlights=(value=[])=>{
  for(const h of value){
   if(!h||typeof h.id!=='string'||!h.id||h.id.length>100||ids.has(h.id)||typeof h.chapterId!=='string'||!h.chapterId||h.chapterId.length>100||typeof h.lessonId!=='string'||!h.lessonId||h.lessonId.length>100||!Number.isInteger(h.start)||!Number.isInteger(h.end)||h.start<0||h.end<=h.start||h.end>2000000||typeof h.text!=='string'||!h.text.trim()||h.text.length!==h.end-h.start||h.text.length>100000||!Number.isFinite(Date.parse(h.createdAt)))throw Error('Invalid lesson highlight.');
   ids.add(h.id);
+  if(h.colour!==undefined&&!C.highlightColours.some(c=>c.id===h.colour))throw Error('Invalid lesson highlight colour.');
  }
  return value;
 };
@@ -47,7 +55,7 @@ C.validate=(d,byId)=>{
  const draft=d.personalNoteDraft===undefined?null:d.personalNoteDraft;
  if(draft!==null&&(!draft||typeof draft!=='object'||Array.isArray(draft)||(draft.id!==null&&!noteIds.has(draft.id))||typeof draft.title!=='string'||draft.title.length>200||typeof draft.body!=='string'||draft.body.length>100000))throw Error('Invalid personal note draft.');
  if(d.active){const a=d.active;if(!Array.isArray(a.questions)||!Array.isArray(a.answers)||!Array.isArray(a.checked)||!Array.isArray(a.flags)||a.questions.length<1||a.questions.length>100||a.answers.length!==a.questions.length||a.checked.length!==a.questions.length||a.flags.length!==a.questions.length||!Number.isInteger(a.current)||a.current<0||a.current>=a.questions.length||typeof a.scope!=='string'||typeof a.title!=='string'||!['test','study'].includes(a.mode))throw Error('Invalid unfinished test.');a.questions.forEach((q,i)=>C.checkAnswer({...q,selected:a.answers[i]},byId));}
- const highlights=C.validateHighlights(d.highlights===undefined?[]:d.highlights);const base=C.fresh();return {...base,...d,personalNotes,personalNoteDraft:draft,highlights,settings:{...base.settings,...d.settings},exercises:d.exercises&&typeof d.exercises==='object'?d.exercises:{},labChecks:d.labChecks&&typeof d.labChecks==='object'?d.labChecks:{}};
+ const highlights=C.validateHighlights(d.highlights===undefined?[]:d.highlights);const base=C.fresh(),settings={...base.settings,...d.settings};if(!C.highlightColours.some(c=>c.id===settings.highlighterColour))throw Error('Invalid highlighter colour.');return {...base,...d,personalNotes,personalNoteDraft:draft,highlights,settings,exercises:d.exercises&&typeof d.exercises==='object'?d.exercises:{},labChecks:d.labChecks&&typeof d.labChecks==='object'?d.labChecks:{}};
 };
 C.checkAnswer=(q,byId)=>{if(!q||!byId[q.id]||!Array.isArray(q.order)||q.order.length!==4||new Set(q.order).size!==4||q.order.some(i=>!Number.isInteger(i)||i<0||i>3)||(q.selected!==null&&(!Number.isInteger(q.selected)||q.selected<0||q.selected>3)))throw Error('Invalid saved question or answer.');};
 C.merge=(current,incoming,byId)=>{const data=C.validate(incoming,byId);const merged={...current,highlights:C.mergeHighlights(current.highlights||[],data.highlights),attempts:Array.from(new Map([...data.attempts,...current.attempts].map(a=>[a.id,a])).values()).sort((a,b)=>a.finishedAt.localeCompare(b.finishedAt)),completed:[...new Set([...current.completed,...data.completed])],notes:{...data.notes,...current.notes},personalNotes:Array.from(new Map([...data.personalNotes,...(current.personalNotes||[])].map(n=>[n.id,n])).values()),personalNoteDraft:current.personalNoteDraft||data.personalNoteDraft,exercises:{...data.exercises,...current.exercises},labChecks:{...data.labChecks,...current.labChecks},active:current.active||data.active};return C.validate(merged,byId);};

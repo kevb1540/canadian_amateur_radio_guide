@@ -1,7 +1,7 @@
 {
-  "passed": 8,
+  "passed": 12,
   "errors": [],
-  "time": "2026-10-17T10:55:27.991Z",
+  "time": "2026-10-24T11:24:38.384Z",
   "native_menu": "Java callback compiled; JavaScript selection bridge simulated, physical long press needs device check",
   "backups": [
     "progress .carprog merge",

@@ -105,27 +105,33 @@ public final class MainActivity extends Activity {
     }
     private final class LessonSelectionCallback extends android.view.ActionMode.Callback2 {
         private static final int HIGHLIGHT=0x6d770001;
+        private static final int HIGHLIGHT_COLOUR=0x6d770002;
         private final android.view.ActionMode.Callback original;
         private boolean closed=false,available=false;
         private android.view.ActionMode currentMode;
         private int revision=0;
         LessonSelectionCallback(android.view.ActionMode.Callback original){this.original=original;}
         private boolean addHighlight(android.view.Menu menu){
-            if(menu.findItem(HIGHLIGHT)!=null)return false;
-            menu.add(android.view.Menu.NONE,HIGHLIGHT,60,"Highlight").setVisible(available).setShowAsAction(android.view.MenuItem.SHOW_AS_ACTION_IF_ROOM);
-            return true;
+            boolean changed=false;
+            if(menu.findItem(HIGHLIGHT)==null){menu.add(android.view.Menu.NONE,HIGHLIGHT,60,"Highlight").setVisible(available).setShowAsAction(android.view.MenuItem.SHOW_AS_ACTION_IF_ROOM);changed=true;}
+            if(menu.findItem(HIGHLIGHT_COLOUR)==null){menu.add(android.view.Menu.NONE,HIGHLIGHT_COLOUR,61,"Highlighter Colour").setVisible(available).setShowAsAction(android.view.MenuItem.SHOW_AS_ACTION_NEVER);changed=true;}
+            return changed;
+        }
+        private void setAvailable(android.view.Menu menu,boolean next){
+            available=next;
+            for(int id:new int[]{HIGHLIGHT,HIGHLIGHT_COLOUR}){android.view.MenuItem item=menu.findItem(id);if(item!=null)item.setVisible(available);}
         }
         void selectionChanged(boolean next){
             if(closed||currentMode==null)return;
             revision++;
-            if(next!=available){available=next;android.view.MenuItem item=currentMode.getMenu().findItem(HIGHLIGHT);if(item!=null)item.setVisible(available);currentMode.invalidate();}
+            if(next!=available){setAvailable(currentMode.getMenu(),next);currentMode.invalidate();}
         }
         private void refresh(android.view.ActionMode mode,android.view.Menu menu){
             final int request=++revision;
             web.evaluateJavascript("Boolean(window.lessonHighlightSelection && window.lessonHighlightSelection())",result->{
                 if(closed||request!=revision)return;
                 boolean next="true".equals(result);
-                if(next!=available){available=next;android.view.MenuItem item=menu.findItem(HIGHLIGHT);if(item!=null)item.setVisible(available);mode.invalidate();}
+                if(next!=available){setAvailable(menu,next);mode.invalidate();}
             });
         }
         @Override public boolean onCreateActionMode(android.view.ActionMode mode,android.view.Menu menu){
@@ -137,6 +143,10 @@ public final class MainActivity extends Activity {
             boolean changed=original.onPrepareActionMode(mode,menu);changed=addHighlight(menu)||changed;refresh(mode,menu);return changed;
         }
         @Override public boolean onActionItemClicked(android.view.ActionMode mode,android.view.MenuItem item){
+            if(item.getItemId()==HIGHLIGHT_COLOUR){
+                web.evaluateJavascript("Boolean(window.openLessonHighlighterColours && window.openLessonHighlighterColours())",result->{if(!closed&&"true".equals(result))mode.finish();});
+                return true;
+            }
             if(item.getItemId()!=HIGHLIGHT)return original.onActionItemClicked(mode,item);
             web.evaluateJavascript("Boolean(window.highlightLessonSelection && window.highlightLessonSelection())",result->{if(!closed&&"true".equals(result))mode.finish();});
             return true;

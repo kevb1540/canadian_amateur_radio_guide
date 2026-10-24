@@ -1,3 +1,45 @@
+# Version 2.3.12 — 24 October 2026
+
+- Added Delete User on the selected user’s pre-login password page and in
+  Profile settings. No password is required to delete a user.
+- Added a confirmation identifying the selected user and the data being
+  removed, with Cancel and Android Back retaining the profile.
+- Deletion removes only that profile from the local vault and clears its
+  signed-in key and study state. Other users and exported backups remain.
+  Pending saves cannot recreate it, and failed writes leave it intact.
+- Retained all 2.3.11 features and original copyright. Version code is 242;
+  the signing identity is unchanged. All 163 automated checks passed.
+  Physical Android installation remains untested.
+
+# Version 2.3.11 — 17 October 2026
+
+- Added On-air terms & phrases to Glossary & definitions and Mode definitions:
+  61 common expressions in six groups, with meanings, examples, usage notes,
+  and question/statement forms for Q codes. Added phonetics and sample contacts.
+- Made all on-air terms searchable in the full glossary, reference desk and
+  quick lookup. The On-air language filter includes all 61, including existing
+  terms; the combined glossary contains 223 unique definitions.
+- Preserved existing definitions, course content, question bank, profiles,
+  coloured highlights, formula lessons and chapter test achievements.
+- Built a compatible signed update, version code 241. See VALIDATION.md.
+
+# Version 2.3.10 — 17 October 2026
+
+- Made all 16 formula cards open dedicated offline teaching pages with definitions,
+  variables and units, named symbols, rearrangements, examples, tips, related
+  formulas and links to the existing labs. Back restores the formula list position.
+- Added Highlighter Colour alongside Highlight in the Android lesson selection
+  menu and browser selection toolbar. The picker offers Yellow, Green, Cyan,
+  Blue, Purple, Pink, Orange and Red, with a saved preference per user.
+- Stored each mark’s colour in encrypted progress and .carprog backups. Kept
+  older yellow marks compatible, preserved surrounding colours when selections
+  overlap, and allowed selected passages to be recoloured without duplicates.
+- Added PASSED and bold gold PASSED WITH HONORS beside chapter names, using
+  the best submitted chapter test at 70% and 80% respectively. Existing history
+  counts; study mode, unfinished tests and full-exam results do not award labels.
+- Retained all prior features, copyright and the compatible signing identity.
+  Increased the Android version code to 240. See VALIDATION.md for checks.
+
 # Version 2.3.9 — 17 October 2026
 
 - Built a fresh signed APK update with version code 239.

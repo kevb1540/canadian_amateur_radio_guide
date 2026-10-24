@@ -2,12 +2,9 @@
 
 ©️ Kevin W. Brown 2026
 
-**Current Android release: 2.3.9 (239).**
+**Current Android release: 2.3.12 (242).**
 
-[Download the APK](https://github.com/kevb1540/canadian_amateur_radio_guide/raw/refs/heads/main/releases/v2.3.9/Canadian_Amature_Radio_Study_Guide_and_Reference.apk) · [Download the source ZIP](https://github.com/kevb1540/canadian_amateur_radio_guide/raw/refs/heads/main/releases/v2.3.9/Canadian_Amature_Radio_Study_Guide_and_Reference_Source.zip) · [Release checksums](releases/v2.3.9/SHA256SUMS)
-
-Open the APK on Android and choose **Update** to keep existing profiles and
-progress. See [releases/README.md](releases/README.md) for release details.
+[Download the APK](https://github.com/kevb1540/canadian_amateur_radio_guide/raw/refs/heads/main/releases/v2.3.12/Canadian_Amature_Radio_Study_Guide_and_Reference.apk) · [Download the source ZIP](https://github.com/kevb1540/canadian_amateur_radio_guide/raw/refs/heads/main/releases/v2.3.12/Canadian_Amature_Radio_Study_Guide_and_Reference_Source.zip) · [Release checksums](releases/v2.3.12/SHA256SUMS)
 
 An Android app with offline study content for the Canadian **Basic Amateur Radio Operator Certificate**,
 with **Basic with Honours** as the study target. The app name uses Kevin’s requested
@@ -26,19 +23,27 @@ all its answers hidden; this does not change saved scores or progress.
 ## Lesson highlights
 
 Select text within a lesson, long-press to open Android’s text-selection menu,
-and choose **Highlight**. The selected passage turns yellow with dark text.
+and choose **Highlight**. The selected passage uses your chosen highlighter colour with dark text.
 Copy and the other standard Android selection actions remain available.
-The browser preview offers a small Highlight selection toolbar.
+Choose **Highlighter Colour** from the same selection menu to choose from
+**Yellow, Green, Cyan, Blue, Purple, Pink, Orange, and Red**. The choice is saved
+per user and applies to the next text highlighted. Existing marks keep their
+colours; selecting a saved passage again and choosing Highlight can recolour it.
+The browser preview offers the same two actions in a small selection toolbar.
 
 Highlights save with the signed-in user’s progress and return when that user
 reopens the lesson. They remain separate between profiles and are included in
 both encrypted User backups and progress .carprog backups. Importing a progress
 backup merges distinct highlights without duplicating repeated imports.
-Older progress without highlights still loads normally.
+Older progress without highlights still loads normally. Existing highlights
+without a stored colour display in yellow. Full User backups retain both the
+colour preference and all coloured passages. Progress backups include both;
+merging keeps the current user’s preference and colours on conflicting anchors.
 
 Text anchors exclude action-button labels and remain stable when Show Answer /
 Hide Answer is toggled. Selected hidden answers are not accidentally included.
-Overlapping passages render as one continuous yellow region. If authored text
+Overlapping passages in the same colour render continuously. A newer colour
+covers only its selected span, keeping the surrounding earlier colours. If authored text
 changes in a future release, quotes are checked before a mark is restored; an
 ambiguous mismatch is skipped rather than highlighting unrelated text.
 
@@ -76,7 +81,37 @@ Files with other extensions are rejected before their contents are read.
 Android exports request a generic binary document type so the file picker keeps
 the custom extension; the saved UTF-8 bytes remain exactly as before.
 
+## Formula guide
+
+Open **Home → Formula & reference desk** and tap any of the **16 formula cards**.
+Each opens a dedicated offline page with the formula’s definition, every letter’s
+name and units, symbol names (including Greek letters), rearrangements for the
+other variables, a worked example, and useful tips and common mistakes.
+Section shortcuts jump to the part you need. Related-formula buttons and links
+to the existing interactive labs help connect the ideas. Publisher references
+are included on the relevant pages and require internet only when opened.
+
+The on-screen **All formulas** button and Android Back return to the same
+position in the formula list. The persistent Glossary remains available without
+losing the formula page. Formula lookup does not change study progress.
+
 ## User profiles and login
+
+**Delete User** is available on the selected user’s password page before login
+and in **Profile settings**. Deletion does **not** require a password, including
+for a user whose password has been forgotten. A separate confirmation displays
+the selected name and avatar and explains what will be removed. **Cancel** or
+Android Back keeps the user.
+
+Confirming removes that user’s encrypted profile, avatar, optional call sign,
+notes, highlights, scores, unfinished tests and other study progress from the
+active profile vault on this device, then returns to the login screen. Other
+users and exported backup files are kept. A previously exported complete User
+.carprog backup can restore the deleted profile using its export-time password.
+Email recovery is not a cloud profile backup. Deletion works offline.
+
+A failed storage write leaves the saved profile and current session intact.
+Deleting the last user leaves Add New User available; a new profile starts fresh.
 
 Use **Export User** for the complete encrypted backup: it includes the avatar,
 optional call sign, username, email, password protection, recovery configuration
@@ -157,7 +192,7 @@ omits the user's profile/password; use **Export User** for protected transfers.
   answers. Compare latest and best results, see changes in percentage points,
   and review any attempt. Tests with feedback are labelled separately.
 - An unfinished test saves after each answer and resumes after reopening.
-- **182 glossary definitions**, with searchable terms, categories and examples.
+- **223 glossary definitions**, with searchable terms, categories and examples.
   A persistent **Glossary** button opens a lookup over every screen, including
   tests, labs and notes, without losing the current place or input.
   Requested entries include VOX, CTCSS, DCS, gain, OWNID, FM, NFM, AM, CW and USB.
@@ -191,6 +226,16 @@ Each test selects official questions from the chapter’s mapped syllabus topics
 Chapter 12 deliberately uses mixed questions from the complete bank. Random
 question and answer order changes between attempts, so use the review pages to
 understand mistakes rather than memorizing answer letters.
+
+## Chapter test labels
+
+The Learn chapter list shows **PASSED** when that user’s best submitted chapter
+test is 70–79%, or **PASSED WITH HONORS** in bold gold text at 80% or higher.
+The label appears beside the chapter name and uses saved test history, so an
+older passing result remains earned after a lower-scoring retry. It also works
+with existing saved results and restored backups. Study-mode attempts,
+unfinished tests, full practice exams and simply marking a reading complete do
+not award a chapter label. Results below 70% do not receive a pass label.
 
 ## How lessons now match their tests
 
@@ -282,6 +327,26 @@ Examples of distinctions explained:
   or a DMR Radio ID.
 - Antenna gain, RF gain, AF gain and microphone gain refer to different functions.
 
+## Common on-air language
+
+**Glossary & definitions → On-air terms & phrases** opens a new offline section
+with **61 expressions in six topics**: calling and contacts, Q codes, signal
+reports, voice phrases and spelling, repeaters and nets, and signing off.
+The Mode definitions page links to the same section.
+
+Every term includes its meaning, an example, and a usage note. Q-code entries
+show question and statement forms; voice and Morse usage are distinguished.
+Search also understands common alternatives, such as “five by nine” and
+“net control”. Topic filters narrow the list. Expand a term to read it.
+A 26-letter phonetic spelling table and short conversation examples are included.
+
+All 61 terms are also available in the full glossary, its **On-air language**
+category, the reference-desk glossary, and the persistent quick lookup. The
+combined glossary has 223 unique entries. Existing definitions, categories,
+manufacturer references and examples are preserved. Quick lookup during a test
+keeps the current question, answer, flags, notes and progress in place.
+Publisher references open externally; all authored content works offline.
+
 ## Personal Notes
 
 Tap **Notes** in the bottom navigation, or **Home → Open Personal Notes**.
@@ -365,8 +430,8 @@ explicit migration and preserve historical answer interpretation.
 ### Stable update identity for developers
 
 - Package ID: `ca.kevin.maplewave`
-- Current version name: `2.3.9`
-- Current version code: `239`
+- Current version name: `2.3.12`
+- Current version code: `242`
 - Signing certificate SHA-256:
   `fa5c815a87afdc21b8f7a319f9dc1da676b27e166445049f0977bf1d3990cd74`
 - Keep the same keystore for updates. Increment the version code for every new
@@ -402,10 +467,14 @@ scripts/build_apk.py                 Direct Android SDK/ECJ build
 tests/core.test.cjs                  Bank, exam, storage and RF checks
 tests/profiles.test.cjs              Encryption, migration and profile separation
 tests/profiles-ui.test.cjs           Login, avatars, transfer and reset UI
+tests/delete-user-ui.test.cjs        Password-free deletion, cancellation and failures
 tests/native_crypto.test.cjs         Native/Web Crypto checkpoint compatibility
 recovery_service/server.py          Optional HTTPS-proxied SMTP recovery backend
 tests/test_recovery_service.py       Code expiry, replay, ownership and mail failures
 tests/ui.test.cjs                    Browser-based phone/tablet UI flows
+tests/formulas-ui.test.cjs           All formula lessons, links and phone layouts
+tests/onair-ui.test.cjs              On-air terms, search, quick lookup and layouts
+tests/highlights-ui.test.cjs         Eight colours, overlays and backup restoration
 tests/android_smoke.py               Actual Android emulator smoke workflow
 ```
 
@@ -414,19 +483,16 @@ tests/android_smoke.py               Actual Android emulator smoke workflow
 Open this directory in Android Studio and sync the Gradle project. It uses
 Android Gradle Plugin 8.13.0, JDK 17 and compile/target SDK 36. Install those tools
 through Android Studio if needed. The first sync requires downloads. There are
-no external app runtime libraries. For a compatible personal update, copy the
-original private signing keystore to `android_development/debug.keystore` before
-building. The path is ignored by Git. The development signing configuration
-expects the existing `androiddebugkey` alias and development passwords; do not
-commit the key or replace it when updating installed copies. The included Gradle 8.13 wrapper downloads its distribution on first use. You can also build with `./gradlew assembleDebug` (`gradlew.bat assembleDebug` on Windows). The wrapper retains its Gradle / Apache 2.0 notices in `GRADLE_WRAPPER_LICENSE.txt`.
+no external app runtime libraries. For a compatible personal update, restore
+the original private keystore at `android_development/debug.keystore` before
+building. This ignored key is excluded from the repository and source ZIP. The included Gradle 8.13 wrapper downloads its distribution on first use. You can also build with `./gradlew assembleDebug` (`gradlew.bat assembleDebug` on Windows). The wrapper retains its Gradle / Apache 2.0 notices in `GRADLE_WRAPPER_LICENSE.txt`.
 
 ### Direct SDK build
 
 Install Android SDK platform 36 and build-tools 36.0.0, plus Eclipse ECJ 3.39.0.
 The build script uses Python 3 only to orchestrate the tools; the APK contains
-no Python interpreter. Restore the same private keystore at
-`android_development/debug.keystore` before running the build. The key is not
-included in this repository or its public source archive. Set `ANDROID_HOME`, `ANDROID_JAR`,
+no Python interpreter. Restore the original private keystore at
+`android_development/debug.keystore` before building. Set `ANDROID_HOME`, `ANDROID_JAR`,
 `ANDROID_BUILD_TOOLS`, and `ECJ_JAR` for your tool locations, then run:
 
 ```bash
@@ -436,7 +502,7 @@ python3 scripts/build_apk.py
 For the next compatible release:
 
 ```bash
-APP_VERSION_CODE=239 APP_VERSION_NAME=2.3.9 python3 scripts/build_apk.py
+APP_VERSION_CODE=242 APP_VERSION_NAME=2.3.12 python3 scripts/build_apk.py
 ```
 
 The direct builder first checks every question against its matching teaching
@@ -451,6 +517,9 @@ node --test tests/core.test.cjs tests/profiles.test.cjs tests/native_crypto.test
 python3 tests/test_recovery_service.py
 node tests/ui.test.cjs
 node tests/profiles-ui.test.cjs
+node tests/formulas-ui.test.cjs
+node tests/onair-ui.test.cjs
+node tests/highlights-ui.test.cjs
 ```
 
 UI checks require Playwright and a Chromium binary; set `CHROME_BIN` to its path.

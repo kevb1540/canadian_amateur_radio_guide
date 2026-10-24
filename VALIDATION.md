@@ -1,3 +1,134 @@
+# Validation for version 2.3.12
+
+**163 automated checks passed on 24 October 2026. All suites ran for this release.**
+
+| Suite | Passed |
+| --- | ---: |
+| Course, quiz, progress and RF core | 32 |
+| Profile encryption, transfer and deletion | 15 |
+| Native / Web Crypto compatibility | 1 |
+| Python recovery service | 7 |
+| Study flows and chapter badges | 40 |
+| Profile and email recovery browser flows | 15 |
+| Password-free deletion browser flows | 6 |
+| Eight-colour highlights and backups | 12 |
+| Formula detail pages | 8 |
+| On-air terminology and glossary integration | 9 |
+| Cloudflare Worker recovery | 17 |
+| Cloudflare setup UI | 1 |
+
+- Deleting a user requires no password, before login or in Profile settings.
+  The confirmation identifies the selected user and contains no password input.
+  Cancel and Android Back retain the exact saved vault.
+- Deleting a locked user preserves the other user’s full encrypted record and
+  work. The user remains deleted after reload. An exported User backup still
+  restores that profile, including its avatar, call sign, highlights and work.
+- Deleting the signed-in user flushes pending writes, removes its vault entry,
+  zeroes the in-memory key and clears private study state. Lifecycle saves
+  cannot recreate it. Deleting the last user still permits new profiles without
+  reclaiming previously migrated/deleted progress.
+- A simulated storage failure leaves both the saved vault and signed-in session
+  intact; cancellation and retry work. Invalid or repeated deletions fail safely.
+- Inspected the 393 px confirmation screenshot. Layout checks cover 320/393 px
+  phones, landscape 852×393 and tablet 800×1280 without horizontal overflow.
+- Existing profiles, backups, recovery, highlights, tests, notes, glossary,
+  formulas and on-air terms passed regression. Question data and teaching
+  content are byte-identical to the supplied 2.3.11 source.
+- Physical Android installation, native menus, camera/document providers and
+  live external email delivery remain untested. Local recovery fixtures were
+  used. Package identity, signatures, alignment and assets are checked during
+  packaging; see apk-update-verification.json for the resulting evidence.
+
+Earlier release records follow as history.
+
+# Validation for version 2.3.11
+
+**154 automated checks passed on 17 October 2026. All suites ran for this release.**
+
+| Suite | Passed |
+| --- | ---: |
+| Course, quiz, progress and RF core | 32 |
+| Profile encryption, isolation and transfer | 12 |
+| Native / Web Crypto compatibility | 1 |
+| Python recovery service | 7 |
+| Study flows and chapter badges | 40 |
+| Profile and email recovery browser flows | 15 |
+| Eight-colour highlights and backups | 12 |
+| Formula detail pages | 8 |
+| On-air terminology and glossary integration | 9 |
+| Cloudflare Worker recovery | 17 |
+| Cloudflare setup UI | 1 |
+
+- Added 61 on-air terms in six groups, with meanings, examples and usage notes.
+  Q-code entries include question/statement forms. Spelling and conversation
+  references are included offline, with optional external publisher links.
+- The merged glossary has 223 unique entries. Existing definitions, categories,
+  nonempty examples, references and related-lab links are retained. The On-air
+  language category includes all 61 entries, including 20 existing terms.
+- Both Glossary & definitions and Mode definitions open the new section.
+  Search, topic filters, empty results, Android Back and unsigned reference
+  access were exercised. Every on-air term is available in quick lookup.
+- Quick lookup and reference browsing retain the current test, answer, flags,
+  scores, notes and highlighter preference. No progress schema changes.
+- Checked phone widths 320/393, landscape 852×393 and tablet 800×1280, including
+  long entries, all topics expanded, and the 26-word spelling table. Inspected
+  phone screenshots and kept search ahead of optional operating tips.
+- Verified all current assets in APK 2.3.11 (241), unchanged native code, existing
+  package/signing identity, ZIP alignment and signature compatibility with
+  2.3.10 (240). Official questions and authored course lessons are unchanged.
+- Physical Android installation, device menus, camera/document pickers, and
+  live external email delivery remain untested. Local recovery fixtures were
+  used. Previously documented native long-press limits still apply.
+
+See validation-summary.json, apk-update-verification.json and the UI reports.
+Earlier release records follow as history.
+
+# Validation for version 2.3.10
+
+**145 automated checks passed on 17 October 2026. All suites ran for this release.**
+
+| Suite | Passed |
+| --- | ---: |
+| Course, quiz, progress and RF core | 32 |
+| Profile encryption, isolation, migration and transfer | 12 |
+| Native Java / Web Crypto checkpoint compatibility | 1 |
+| Python recovery service | 7 |
+| Browser study flows, including chapter badges | 40 |
+| Profile, avatar, transfer and email-reset browser flows | 15 |
+| Eight-colour lesson highlighting and backup restoration | 12 |
+| Formula detail pages and navigation | 8 |
+| Cloudflare Worker recovery | 17 |
+| Cloudflare setup page in Chromium | 1 |
+
+- Every existing formula has a dedicated offline page covering its definition,
+  letters and units, named symbols, inverse forms, worked example and tips.
+  Verified all 16 pages at 320 px and 393 px phone widths, in landscape, and on
+  a tablet. Related pages, labs, keyboard actions, Back position and glossary
+  preservation work without external requests or changes to study progress.
+- Highlight and Highlighter Colour are added to Android's native ActionMode
+  callback. The picker offers eight named, accessible colours. The callback
+  compiles against Android SDK 36, and the selection-to-picker bridge was
+  exercised in Chromium, including ActionMode cleanup and Back cancellation.
+- Verified each colour, per-user saved preference, readable dark text, old
+  colourless highlights defaulting to yellow, overlap colours, recolouring
+  without duplicate anchors, failed-save rollback, profile isolation, and
+  reopening. Progress .carprog and encrypted User .carprog transfers retain
+  coloured marks; full User restore also retains the colour preference.
+- Learn lists PASSED from a best submitted chapter test of 70%, and bold gold
+  PASSED WITH HONORS from 80%. Existing history works. Lower later attempts do
+  not remove an earned label; study attempts, incomplete tests, full exams and
+  reading-complete markers cannot award it. Verified reopening and layouts.
+- All 984 official questions, 100 topic lessons, profiles and encryption code,
+  copyright, icon and recovery-service configuration are preserved.
+- APK 2.3.10 (240) keeps package ca.kevin.maplewave and the existing signing
+  certificate, verified against 2.3.9 (239). Verified APK v2/v3 signatures,
+  ZIP alignment, and every bundled asset against the final source files.
+- Physical Android installation, native long-press/menu behavior, device camera
+  and document pickers, and live external email delivery remain untested.
+
+See validation-summary.json, apk-update-verification.json and the UI reports.
+Earlier release records follow as history.
+
 # Validation for version 2.3.9
 
 **128 automated checks passed on 17 October 2026.** All suites were run again

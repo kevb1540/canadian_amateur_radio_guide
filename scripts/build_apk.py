@@ -6,10 +6,12 @@ from check_lesson_coverage import validate
 root=Path(__file__).resolve().parents[1]
 course=json.loads((root/'app/src/main/assets/course.json').read_text())
 bank=json.loads((root/'app/src/main/assets/questions.json').read_text())
+onair=json.loads((root/'app/src/main/assets/onair-guide.json').read_text())
+glossary_count=len({g['term'].lower() for g in [*course['glossary'],*onair['entries']]})
 coverage=validate(course,bank)
 print('Lesson coverage verified:',coverage['covered_questions'],'questions in',coverage['detailed_lessons'],'topic lessons',flush=True)
-version_code=int(os.environ.get('APP_VERSION_CODE','239'))
-version_name=os.environ.get('APP_VERSION_NAME','2.3.9')
+version_code=int(os.environ.get('APP_VERSION_CODE','242'))
+version_name=os.environ.get('APP_VERSION_NAME','2.3.12')
 sdk=Path(os.environ.get('ANDROID_HOME',str(root.parent/'toolchain/sdk')))
 platform=Path(os.environ.get('ANDROID_JAR',str(sdk/'android-36/android.jar')))
 if not platform.exists():platform=sdk/'platforms/android-36/android.jar'
@@ -37,6 +39,6 @@ apk=Path(os.environ.get('APK_OUTPUT',str(root.parent/'Canadian_Amature_Radio_Stu
 run([bt/'apksigner','sign','--ks',root/'android_development/debug.keystore','--ks-key-alias','androiddebugkey','--ks-pass','pass:android','--key-pass','pass:android','--out',apk,out/'aligned.apk'])
 run([bt/'apksigner','verify','--verbose','--print-certs',apk])
 run([bt/'zipalign','-c','-P','16','4',apk])
-info={'app':'Canadian Amature Radio Study Guide and Reference','version':version_name,'version_code':version_code,'package':'ca.kevin.maplewave','min_sdk':26,'target_sdk':36,'architectures':'All Android ABIs; no native libraries','official_questions':984,'topic_groups':100,'glossary_terms':len(course['glossary']),**coverage,'lesson_coverage_verified':True,'apk_bytes':apk.stat().st_size,'apk_sha256':hashlib.sha256(apk.read_bytes()).hexdigest(),'permissions':['android.permission.REQUEST_INSTALL_PACKAGES','android.permission.INTERNET'],'profiles':'Password-encrypted local users with optional configured email recovery','physical_device_tested':False}
+info={'app':'Canadian Amature Radio Study Guide and Reference','version':version_name,'version_code':version_code,'package':'ca.kevin.maplewave','min_sdk':26,'target_sdk':36,'architectures':'All Android ABIs; no native libraries','official_questions':984,'topic_groups':100,'glossary_terms':glossary_count,'on_air_terms':len(onair['entries']),**coverage,'lesson_coverage_verified':True,'apk_bytes':apk.stat().st_size,'apk_sha256':hashlib.sha256(apk.read_bytes()).hexdigest(),'permissions':['android.permission.REQUEST_INSTALL_PACKAGES','android.permission.INTERNET'],'profiles':'Password-encrypted local users with optional configured email recovery','physical_device_tested':False}
 (root/'build-info.json').write_text(json.dumps(info,indent=2)+'\n')
 print('APK:',apk,'('+str(apk.stat().st_size)+' bytes)')

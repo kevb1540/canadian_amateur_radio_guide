@@ -39,6 +39,13 @@ class Store{
  flushNative(progress){if(this.session&&this.io.sealNative)return this.saveNative({...this.session.payload,progress:copy(progress)});return this.save(progress);}
  async flush(){await this.tail;}
  async lock(){await this.flush();if(this.session)this.session.raw.fill(0);this.session=null;}
+ async deleteProfile(profileId){
+  await this.flush();const p=this.get(profileId),v=copy(this.vault);
+  v.profiles=v.profiles.filter(profile=>profile.id!==profileId);
+  this.commit(v);
+  if(this.session?.id===profileId){this.session.raw.fill(0);this.session.payload=null;this.session=null;}
+  return p.name;
+ }
  async exportProfile(profileId,pass){const verified=await this.authenticate(profileId,pass);verified.raw.fill(0);const p=copy(this.get(profileId));p.failures=0;p.lockedUntil=0;return JSON.stringify({schema:1,type:'Maplewave encrypted profile',exportedAt:new Date().toISOString(),profile:p},null,2);}
  async exportSnapshot(snapshot,pass){if(!this.session||snapshot.id!==this.session.id)throw Error('The recovery copy belongs to another user.');record(snapshot);const verified=await this.decode(snapshot,pass);verified.raw.fill(0);const p=copy(snapshot);p.failures=0;p.lockedUntil=0;return JSON.stringify({schema:1,type:'Maplewave encrypted profile',exportedAt:new Date().toISOString(),profile:p},null,2);}
  async importProfile(text,pass,newName=''){await this.flush();if(text.length>MAX)throw Error('Profile backup exceeds 64 MiB.');const envelope=JSON.parse(text);if(envelope.schema!==1||envelope.type!=='Maplewave encrypted profile')throw Error('Choose an encrypted profile backup exported by this app.');let p=record(copy(envelope.profile));const s=await this.decode(p,pass);const name=newName.trim()||p.name;if(this.vault.profiles.some(x=>normalize(x.name)===normalize(name))||(!newName.trim()&&this.vault.profiles.some(x=>x.id===p.id)))throw Error('This user already exists. Enter a different name to import a separate copy. Existing users will not be overwritten.');if(newName.trim()||this.vault.profiles.some(x=>x.id===p.id)){fields({name,email:s.payload.email,password:pass,avatar:p.avatar});const newId=id(),raw=bytes(32);s.payload.name=name;s.payload.ownerToken=b64(bytes(32));p={...p,id:newId,name,...await wrap(raw,pass,newId),data:await seal(JSON.stringify(s.payload),await aes(raw),'MW3:data:'+newId),recovery:{url:'',verified:false}};raw.fill(0);}p.failures=0;p.lockedUntil=0;const v=copy(this.vault);if(v.profiles.length>=50)throw Error('This device already has 50 profiles.');v.profiles.push(p);this.commit(v);s.raw.fill(0);return p.id;}

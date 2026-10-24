@@ -7,15 +7,35 @@ function textNodes(lesson){
 }
 class Controller{
  constructor(hooks){
-  this.h=hooks;this.pending=null;this.busy=false;
+  this.h=hooks;this.pending=null;this.busy=false;this.colourBusy=false;
   this.menu=document.createElement('div');this.menu.id='lesson-highlight-menu';this.menu.hidden=true;this.menu.setAttribute('role','toolbar');this.menu.setAttribute('aria-label','Lesson text selection');
-  const button=document.createElement('button');button.type='button';button.textContent='Highlight';button.id='highlight-selected-lesson';this.menu.append(button);document.body.append(this.menu);
+  const button=document.createElement('button');button.type='button';button.textContent='Highlight';button.id='highlight-selected-lesson';this.menu.append(button);this.highlightButton=button;
+  const colours=document.createElement('button');colours.type='button';colours.textContent='Highlighter Colour';colours.id='choose-highlighter-colour';colours.setAttribute('aria-haspopup','dialog');colours.setAttribute('aria-controls','highlighter-colour-dialog');this.menu.append(colours);document.body.append(this.menu);
+  this.palette=document.createElement('dialog');this.palette.id='highlighter-colour-dialog';this.palette.setAttribute('aria-labelledby','highlighter-colour-title');
+  this.palette.innerHTML='<div class="row between"><h2 id="highlighter-colour-title">Highlighter Colour</h2><button type="button" class="btn ghost" id="close-highlighter-colours">Close ×</button></div><p>Choose the colour for the next text you highlight.</p><div class="highlighter-colour-grid" role="group" aria-label="Eight highlighter colours"></div><p class="helper">Your colour choice is saved with your user profile.</p>';
+  for(const colour of RadioCore.highlightColours){const swatch=document.createElement('button');swatch.type='button';swatch.className='highlighter-colour-option';swatch.dataset.colour=colour.id;swatch.setAttribute('aria-label',colour.name);const dot=document.createElement('span');dot.className='highlighter-colour-dot';dot.style.backgroundColor=colour.hex;dot.setAttribute('aria-hidden','true');swatch.append(dot,document.createTextNode(colour.name));swatch.addEventListener('click',()=>this.chooseColour(colour.id));this.palette.querySelector('.highlighter-colour-grid').append(swatch);}
+  document.body.append(this.palette);this.palette.querySelector('#close-highlighter-colours').addEventListener('click',()=>this.closeColours());
   button.addEventListener('pointerdown',e=>e.preventDefault());button.addEventListener('mousedown',e=>e.preventDefault());button.addEventListener('click',()=>this.saveSelection());
+  colours.addEventListener('pointerdown',e=>e.preventDefault());colours.addEventListener('mousedown',e=>e.preventDefault());colours.addEventListener('click',()=>this.openColours());
   document.addEventListener('selectionchange',()=>this.updateMenu());
   document.addEventListener('scroll',()=>this.updateMenu(),true);root.addEventListener('resize',()=>this.updateMenu());
   root.lessonHighlightSelection=()=>this.capture();
   root.clearLessonHighlightSelection=()=>this.reset();
   root.highlightLessonSelection=()=>{const target=this.snapshot()||this.pending;if(!this.usable(target)||this.busy)return false;this.saveSelection(target);return true;};
+  root.openLessonHighlighterColours=()=>this.openColours();
+ }
+ currentColour(){return RadioCore.highlightColour(this.h.state().settings?.highlighterColour);}
+ updateColours(){const current=this.currentColour();for(const button of this.palette.querySelectorAll('[data-colour]')){button.setAttribute('aria-pressed',String(button.dataset.colour===current.id));button.disabled=this.colourBusy;}this.highlightButton.style.backgroundColor=current.hex;this.highlightButton.title='Highlight in '+current.name;}
+ openColours(){const target=this.snapshot()||this.pending;if(!this.usable(target)||this.busy||this.colourBusy)return false;this.colourIdentity=target.identity;this.menu.hidden=true;this.updateColours();if(!this.palette.open)this.palette.showModal();this.palette.querySelector('[aria-pressed="true"]').focus();return true;}
+ closeColours(){if(!this.palette.open)return false;this.palette.close();this.colourIdentity=null;return true;}
+ async chooseColour(id){
+  if(this.colourBusy||!RadioCore.highlightColours.some(c=>c.id===id)||!this.h.identity()||this.colourIdentity!==this.h.identity())return false;
+  const progress=this.h.state(),identity=this.h.identity(),previous=progress.settings.highlighterColour;
+  if(this.currentColour().id===id){this.closeColours();return true;}
+  this.colourBusy=true;progress.settings.highlighterColour=id;this.updateColours();
+  try{if(!await this.h.save())throw Error('Colour could not be saved.');if(this.h.state()===progress&&this.h.identity()===identity){this.closeColours();this.h.notice('Highlighter colour: '+this.currentColour().name+'. Select text and choose Highlight.');}return true;}
+  catch(e){if(previous===undefined)delete progress.settings.highlighterColour;else progress.settings.highlighterColour=previous;if(this.h.state()===progress&&this.h.identity()===identity)this.h.notice('Highlighter colour could not be saved. Try again.');return false;}
+  finally{this.colourBusy=false;this.updateColours();}
  }
  reset(){this.pending=null;this.menu.hidden=true;this.notifyNative(false);}
  notifyNative(valid){if(typeof root.AndroidApp?.lessonHighlightSelectionChanged==='function'&&this.nativeAvailable!==valid){this.nativeAvailable=valid;root.AndroidApp.lessonHighlightSelectionChanged(valid);}}
@@ -38,6 +58,7 @@ class Controller{
  }
  capture(){this.pending=this.busy?null:this.snapshot();return !!this.pending;}
  updateMenu(){
+  this.updateColours();
   const valid=this.capture();this.notifyNative(valid);if(!valid||typeof root.AndroidApp?.lessonHighlightMenu==='function'){this.menu.hidden=true;return;}
   const rect=this.pending.rect;if(rect.bottom<78||rect.top>innerHeight-65){this.menu.hidden=true;return;}
   this.menu.hidden=false;const box=this.menu.getBoundingClientRect();
@@ -46,10 +67,13 @@ class Controller{
  }
  async saveSelection(target=this.snapshot()||this.pending){
   if(this.busy||!this.usable(target))return false;
-  const progress=this.h.state(),previous=progress.highlights||[],now=new Date().toISOString();
-  const added=target.ranges.map(h=>({id:RadioCore.uuid(),chapterId:target.chapterId,lessonId:target.lessonId,start:h.start,end:h.end,text:h.text,createdAt:now}));
-  let next;try{next=RadioCore.mergeHighlights(previous,added);}catch(e){this.h.notice('Could not save this highlight. Select a shorter passage or export your progress.');return false;}
-  if(next.length===previous.length){this.reset();root.getSelection()?.removeAllRanges();this.h.notice('Already highlighted');return true;}
+  const progress=this.h.state(),previous=progress.highlights||[],now=new Date().toISOString(),colour=this.currentColour().id;
+  const key=h=>JSON.stringify([h.chapterId,h.lessonId,h.start,h.end,h.text]);
+  const previousByAnchor=new Map(previous.map(h=>[key(h),h]));
+  const added=target.ranges.map(h=>({id:RadioCore.uuid(),chapterId:target.chapterId,lessonId:target.lessonId,start:h.start,end:h.end,text:h.text,createdAt:now,colour})).filter(h=>{const old=previousByAnchor.get(key(h));return !old||RadioCore.highlightColour(old.colour).id!==colour;});
+  if(!added.length){this.reset();root.getSelection()?.removeAllRanges();this.h.notice('Already highlighted');return true;}
+  const replacing=new Set(added.map(key));
+  let next;try{next=RadioCore.mergeHighlights(added,previous.filter(h=>!replacing.has(key(h))));}catch(e){this.h.notice('Could not save this highlight. Select a shorter passage or export your progress.');return false;}
   this.busy=true;progress.highlights=next;this.menu.hidden=true;
   try{
    if(!await this.h.save())throw Error('Highlight could not be saved.');
@@ -62,25 +86,29 @@ class Controller{
   }finally{this.busy=false;this.reset();}
  }
  renderAll(){
-  this.reset();if(!this.h.identity())return;
+  this.reset();this.closeColours();if(!this.h.identity())return;
   for(const lesson of document.querySelectorAll('main .lesson'))this.paint(lesson);
  }
  paint(lesson){
   for(const mark of lesson.querySelectorAll('mark.lesson-highlight'))mark.replaceWith(...mark.childNodes);
   lesson.normalize();const nodes=textNodes(lesson),text=nodes.map(n=>n.data).join(''),ranges=[];
-  for(const h of this.h.state().highlights||[]){
+  let order=0;for(const h of this.h.state().highlights||[]){
    if(h.chapterId!==lesson.dataset.chapterId||h.lessonId!==lesson.dataset.lessonId)continue;
    let start=h.start,end=h.end;
    if(text.slice(start,end)!==h.text){start=text.indexOf(h.text);if(start<0||text.indexOf(h.text,start+1)>=0)continue;end=start+h.text.length;}
-   ranges.push({start,end});
+   ranges.push({start,end,colour:RadioCore.highlightColour(h.colour),when:Date.parse(h.createdAt),order:order++});
   }
-  ranges.sort((a,b)=>a.start-b.start||a.end-b.end);const merged=[];
-  for(const range of ranges){const last=merged[merged.length-1];if(last&&range.start<=last.end)last.end=Math.max(last.end,range.end);else merged.push({...range});}
+  // Sweep text boundaries. The most recent saved mark wins only where ranges overlap.
+  const events=ranges.flatMap(h=>[h.start,h.end]).sort((a,b)=>a-b),points=[...new Set(events)],starts=ranges.slice().sort((a,b)=>a.start-b.start),heap=[],merged=[];
+  const newer=(a,b)=>a.when>b.when||(a.when===b.when&&a.order>b.order);
+  const push=h=>{heap.push(h);let i=heap.length-1;while(i>0){const parent=(i-1)>>1;if(!newer(heap[i],heap[parent]))break;[heap[i],heap[parent]]=[heap[parent],heap[i]];i=parent;}};
+  const pop=()=>{const last=heap.pop();if(!heap.length)return;heap[0]=last;let i=0;while(true){const left=2*i+1,right=left+1;let best=i;if(left<heap.length&&newer(heap[left],heap[best]))best=left;if(right<heap.length&&newer(heap[right],heap[best]))best=right;if(best===i)break;[heap[i],heap[best]]=[heap[best],heap[i]];i=best;}};
+  let next=0;for(let i=0;i<points.length-1;i++){const start=points[i],end=points[i+1];while(next<starts.length&&starts[next].start<=start)push(starts[next++]);while(heap.length&&heap[0].end<=start)pop();if(!heap.length)continue;const colour=heap[0].colour,last=merged[merged.length-1];if(last&&last.end===start&&last.colour.id===colour.id)last.end=end;else merged.push({start,end,colour});}
   let offset=0;
   for(const node of nodes){
    const base=offset;offset+=node.data.length;
-   const portions=merged.filter(h=>h.start<offset&&h.end>base).map(h=>({start:Math.max(0,h.start-base),end:Math.min(node.data.length,h.end-base)})).reverse();
-   for(const h of portions){node.splitText(h.end);const selected=node.splitText(h.start),mark=document.createElement('mark');mark.className='lesson-highlight';selected.replaceWith(mark);mark.append(selected);}
+   const portions=merged.filter(h=>h.start<offset&&h.end>base).map(h=>({start:Math.max(0,h.start-base),end:Math.min(node.data.length,h.end-base),colour:h.colour})).reverse();
+   for(const h of portions){node.splitText(h.end);const selected=node.splitText(h.start),mark=document.createElement('mark');mark.className='lesson-highlight';mark.dataset.colour=h.colour.id;mark.style.backgroundColor=h.colour.hex;mark.title=h.colour.name+' highlight';selected.replaceWith(mark);mark.append(selected);}
   }
  }
 }

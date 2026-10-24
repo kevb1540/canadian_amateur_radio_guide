@@ -44,3 +44,18 @@ test('malformed highlight imports are rejected before saved progress can be chan
   const current=C.fresh(),incoming=C.fresh();current.notes.certificate='Keep this';incoming.highlights=[{...h}];change(incoming);assert.throws(()=>C.merge(current,incoming,byId));assert.equal(current.notes.certificate,'Keep this');assert.deepEqual(current.highlights,[]);
  }
 });
+test('eight highlighter colours round-trip with progress and old highlights remain valid yellow marks',()=>{
+ const a=C.fresh();delete a.settings.highlighterColour;
+ a.highlights=[{id:'legacy-yellow',chapterId:'certificate',lessonId:'B-001-001',start:0,end:4,text:'Text',createdAt:'2026-10-17T10:00:00Z'}];
+ assert.equal(C.validate(a,byId).settings.highlighterColour,'yellow');assert.equal(C.highlightColour(a.highlights[0].colour).id,'yellow');
+ assert.equal(C.highlightColours.length,8);assert.equal(new Set(C.highlightColours.map(c=>c.id)).size,8);
+ for(const colour of C.highlightColours){const d=C.fresh();d.settings.highlighterColour=colour.id;d.highlights=[{...a.highlights[0],colour:colour.id}];assert.deepEqual(C.validate(JSON.parse(JSON.stringify(d)),byId),d);}
+});
+test('colour imports reject unapproved values without changing current highlights or preference',()=>{
+ for(const colour of [null,'#fff176','chartreuse','<script>',{},42]){for(const setting of [false,true]){const current=C.fresh(),incoming=C.fresh();if(setting)incoming.settings.highlighterColour=colour;else incoming.highlights=[{id:'bad-colour',chapterId:'certificate',lessonId:'B-001-001',start:0,end:4,text:'Text',createdAt:'2026-10-17T10:00:00Z',colour}];assert.throws(()=>C.merge(current,incoming,byId),/colour/);assert.deepEqual(current.highlights,[]);assert.equal(current.settings.highlighterColour,'yellow');}}
+});
+test('progress merges keep current colour preferences and current colours on conflicting identical anchors',()=>{
+ const a=C.fresh(),b=C.fresh(),h={id:'current',chapterId:'certificate',lessonId:'B-001-001',start:0,end:4,text:'Text',createdAt:'2026-10-17T10:00:00Z'};
+ a.settings.highlighterColour='pink';a.highlights=[{...h,colour:'green'}];b.settings.highlighterColour='blue';b.highlights=[{...h,id:'imported',colour:'red'},{...h,id:'other',start:5,end:9,text:'More',colour:'cyan'}];
+ const merged=C.merge(a,b,byId);assert.equal(merged.settings.highlighterColour,'pink');assert.equal(merged.highlights.find(x=>x.start===0).colour,'green');assert.equal(merged.highlights.find(x=>x.start===5).colour,'cyan');assert.equal(C.merge(merged,b,byId).highlights.length,2);
+});

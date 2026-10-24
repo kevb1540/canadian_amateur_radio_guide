@@ -21,4 +21,75 @@
 .lesson-highlight{background:#fff176;color:#151515;border-radius:2px;-webkit-box-decoration-break:clone;box-decoration-break:clone}
 #lesson-highlight-menu{position:fixed;z-index:45;padding:5px;background:var(--panel);border:1px solid var(--line);border-radius:12px;box-shadow:0 6px 24px #0009}
 #lesson-highlight-menu button{min-height:44px;background:#fff176;color:#151515;font-weight:750;border:0;border-radius:8px;padding:9px 15px}
+#lesson-highlight-menu{display:flex;gap:5px;max-width:calc(100vw - 16px)}
+#lesson-highlight-menu[hidden]{display:none}
+#lesson-highlight-menu #choose-highlighter-colour{background:var(--panel2);color:var(--text);border:1px solid var(--line);font-size:.8rem;padding:8px 10px}
+#highlighter-colour-dialog{max-width:420px}
+#highlighter-colour-dialog h2{margin:0}
+#highlighter-colour-dialog>p{margin-top:16px}
+.highlighter-colour-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin:18px 0}
+.highlighter-colour-option{display:flex;align-items:center;gap:9px;text-align:left;min-height:52px;padding:10px;border:2px solid var(--line);border-radius:12px;background:var(--bg);font-size:.85rem}
+.highlighter-colour-option[aria-pressed=true]{border-color:var(--accent);box-shadow:0 0 0 1px var(--accent)}
+.highlighter-colour-option[aria-pressed=true]::after{content:'✓';margin-left:auto;color:var(--accent);font-weight:800}
+.highlighter-colour-dot{width:22px;height:22px;border-radius:50%;flex-shrink:0}
+.highlighter-colour-option:disabled{opacity:.5;cursor:wait}
 .lesson{user-select:text;-webkit-user-select:text}
+
+/* Offline formula lessons. Entire cards are keyboard-accessible buttons. */
+.formula-list{display:grid;gap:12px;margin-top:18px}
+.formula-link{width:100%;display:flex;align-items:center;gap:14px;text-align:left;border:1px solid var(--line);border-radius:14px;background:var(--bg);padding:17px;color:var(--text)}
+.formula-link:hover,.formula-link:focus-visible{border-color:var(--accent);background:#122d31}
+.formula-link-body{display:block;flex:1;min-width:0}
+.formula-link-body>span,.formula-link-body>strong{display:block}
+.formula-link .formula{margin:8px 0;font-size:1rem}
+.formula-open{color:var(--accent);font-size:.75rem;font-weight:700;margin-top:12px}
+.formula-arrow{font-size:1.7rem;color:var(--accent);flex-shrink:0}
+.formula-detail{overflow-wrap:anywhere;min-width:0}
+.formula-hero{border:1px solid #326c64;background:#12302e;border-radius:16px;padding:22px;margin:20px 0}
+.formula-hero .formula{font-size:clamp(1.1rem,4.7vw,1.55rem);margin:0}
+.formula-jumps{display:flex;flex-wrap:wrap;gap:8px;margin:16px 0 23px}
+.formula-jumps a{font-size:.78rem;border:1px solid var(--line);border-radius:9px;min-height:44px;padding:10px 12px;text-decoration:none}
+.formula-section{scroll-margin-top:calc(var(--appbar-height) + 16px)}
+.formula-section p:last-child{margin-bottom:0}
+.formula-table{width:100%;table-layout:fixed}
+.formula-table th:first-child{width:30%;overflow-wrap:anywhere}
+.formula-table tbody th{font-size:.85rem;color:var(--accent);vertical-align:top;text-transform:none}
+.formula-table td{vertical-align:top;overflow-wrap:anywhere}
+.formula-table td p{margin:7px 0 0;line-height:1.6}
+.formula-table td strong{display:block}
+.formula-unit{display:block;color:var(--warm);font-size:.76rem;margin-top:5px}
+.formula-notation{margin:0}
+.formula-notation>div{padding:14px 0;border-bottom:1px solid var(--line)}
+.formula-notation>div:last-child{border-bottom:0;padding-bottom:0}
+.formula-notation dt{display:flex;align-items:baseline;flex-wrap:wrap;gap:7px 14px}
+.formula-notation dt strong{font-size:.87rem}
+.formula-notation dd{margin:8px 0 0;font-size:.88rem;color:var(--muted)}
+.formula-rearrangement+.formula-rearrangement{border-top:1px solid var(--line);padding-top:20px;margin-top:20px}
+.formula-rearrangement ol,.formula-section li{font-size:.9rem}
+.formula-related-heading{margin-top:23px}
+.formula-detail h1:focus{outline:none}
+
+/* Best submitted chapter-test achievements, derived from each user's history. */
+.chapter-title-row{display:flex;align-items:baseline;flex-wrap:wrap;gap:7px 12px;min-width:0}
+.chapter-status{display:inline-block;font-size:.68rem;line-height:1.4;letter-spacing:.035em;overflow-wrap:anywhere}
+.chapter-status.passed{color:var(--accent);font-weight:600}
+.chapter-status.honors{color:#ffd166;font-weight:800}
+
+/* Common on-air language, shared with the full and quick glossaries. */
+.onair-intro{border-color:#326c64;background:linear-gradient(135deg,#173737,var(--panel) 80%)}
+.onair-group{margin:26px 0}
+.onair-group>h2{font-size:1.05rem;color:var(--accent);margin-bottom:13px}
+.onair-term{background:var(--panel);overflow-wrap:anywhere}
+.onair-term[open] summary{color:var(--accent)}
+.onair-term .note p{margin:6px 0 0}
+.onair-usage{font-size:.85rem;color:var(--muted);margin-bottom:0}
+.onair-usage strong{color:var(--warm);font-size:.75rem}
+.onair-q-forms{font-size:.85rem;border-left:2px solid var(--line);padding-left:12px}
+.onair-q-forms dt{font-size:.72rem;font-weight:700;color:var(--muted);margin:11px 0 3px}
+.onair-q-forms dd{margin:0}
+.onair-phonetics th,.onair-phonetics td{overflow-wrap:anywhere}
+.onair-conversation+.onair-conversation{margin-top:22px;padding-top:20px;border-top:1px solid var(--line)}
+.onair-conversation dt{font-size:.72rem;color:var(--accent);font-weight:750;margin-top:12px}
+.onair-conversation dd{margin:4px 0 0;font-size:.9rem;overflow-wrap:anywhere}
+
+.btn.danger{color:#fff;background:#a82837;border-color:#e96572;font-weight:800}.btn.danger:hover{background:#bd3142}.btn.danger:focus-visible{outline:3px solid var(--profile-warning);outline-offset:3px}
