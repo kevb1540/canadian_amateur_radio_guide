@@ -1,10 +1,6 @@
-# Canadian Amature Radio Study Guide and Reference
+# Canadian Amature Radio Unofficial Basic Certificate Study Guide And Reference
 
 ©️ Kevin W. Brown 2026
-
-**Current Android release: 2.3.12 (242).**
-
-[Download the APK](https://github.com/kevb1540/canadian_amateur_radio_guide/raw/refs/heads/main/releases/v2.3.12/Canadian_Amature_Radio_Study_Guide_and_Reference.apk) · [Download the source ZIP](https://github.com/kevb1540/canadian_amateur_radio_guide/raw/refs/heads/main/releases/v2.3.12/Canadian_Amature_Radio_Study_Guide_and_Reference_Source.zip) · [Release checksums](releases/v2.3.12/SHA256SUMS)
 
 An Android app with offline study content for the Canadian **Basic Amateur Radio Operator Certificate**,
 with **Basic with Honours** as the study target. The app name uses Kevin’s requested
@@ -15,10 +11,143 @@ red maple leaf in the bottom-right corner. The header image is bundled for
 offline use; its source copy matches the launcher icon exactly. See
 branding-edit.json for the image-edit prompt and asset provenance.
 
+The header uses larger title and subtitle text, with an explicit line break
+after **Guide** so **And Reference** starts on the next line. The profile chooser
+uses the extra header space for larger lettering and hides the Glossary button.
+Profile Settings also hides the Glossary button. It returns when you go back to study.
+
 In **Apply this lesson to the exam**, each official question starts with its
 answer and worked explanation hidden. Choose **Show Answer** to reveal only
 that question, then **Hide Answer** to close it. Reopening a lesson starts with
 all its answers hidden; this does not change saved scores or progress.
+When **Read lesson** is used, these exam answers and their worked explanations
+are read aloud even while collapsed. The reader says **“Answer.”** before each
+answer. The visual Show Answer / Hide Answer controls keep their current state.
+
+The Sign out button is centered at the bottom of each signed-in page, immediately
+above the copyright line, including Profile Settings and Settings.
+
+## Completed chapters test
+
+In **Tests → Completed chapters test**, take eight random official questions for
+each chapter marked complete in Learn. One completed chapter gives 8 questions,
+three give 24, and all twelve give 96. The card shows the count and an expandable
+list of included chapters. With no completed chapters, it offers Go to Learn and
+keeps the start button disabled.
+
+Chapter 12 uses its existing cumulative question pool and adds eight mixed
+review questions. Every question in the test is unique. Questions and answer
+positions are shuffled; answers are revealed after submission. Save & leave,
+Resume, grading, answer review, missed-question practice and backups use the
+existing test workflow. Submitted scores compare only the same chapter set.
+Try another test repeats a saved result’s original chapter set; starting from
+Tests uses the profile’s latest completion list. This combined test does not
+award individual chapter-test badges or change completion marks.
+
+## Help and returning to your place
+
+The small pale-pink **HELP** button sits below the header Glossary shortcut.
+It follows the same visibility rules as Glossary. Help works offline and covers
+navigation, lessons, speech controls, double-tap restart, highlights, ITU playback,
+tests, scores, labs, references, notes, settings, profiles, backups and updates.
+
+Use **Search Help** at the top to find words in topic titles and instructions.
+Matching topics open as you type, with a result count. Searches ignore case
+and accents; multiple words can appear anywhere in the same topic. **Clear**
+shows all topics again and restores their earlier open/closed state. Back and
+Search remain at the top while results scroll. Reopening Help starts with a
+blank search.
+
+**Back** at the top of Help, Android Back or Escape returns to the original
+screen and scroll position. The screen stays mounted, so open answer panels,
+expanded sections, searches, forms and drafts remain intact. Active narration,
+letter recordings and guided antenna animation pause while Help is open and
+continue when you return; a previously paused reader stays paused with its
+chosen restart word preserved.
+
+## Lesson reading, profile Settings and colour themes
+
+Version **2.3.20 (250)** has a **Settings** button beside Profile on each study
+screen. The Options/Settings page hides the current-user banner and its Profile
+and Settings buttons, matching the Profile Settings page. Profile management
+is still available from the Profile settings card. Voice and appearance preferences belong to the signed-in profile. They
+are encrypted with that profile, survive reopening, and restore with an encrypted
+User .carprog backup. Merging a progress backup keeps the current user's choices.
+Older profiles acquire the original Midnight theme and normal reading speed.
+
+In **Settings → Read lessons aloud**, select a voice from the single **Voice**
+list and tap **Preview voice** to hear a spoken sample using the voice and speech
+speed currently shown in Settings. Each press captures those controls again,
+including the slider's live value. Preview also works with sound effects disabled.
+While the sample plays, **Stop reading**
+replaces Preview in exactly the same location. Preview returns when playback stops,
+pauses, finishes or fails. The **Speech speed** slider ranges from **0.5× to 2×**, shows its value while you
+move it, and saves the setting when released.
+The list displays each available voice's name and language. There is no sex
+selection or separate voice assignment. The previously active saved voice from
+version 2.3.12 migrates automatically to the new preference, including when an
+older User backup is restored.
+
+Only installed on-device English voices are offered. **Phone voice settings**
+opens Android's speech configuration; install English voice data there if the
+list is empty, then use **Refresh voices**. This amber button appears after changing
+the voice or speed, or opening Phone voice settings, and hides as soon as it is
+clicked. Appearance-only edits do not reveal it. A saved voice unavailable on another
+phone must be reassigned. The phone's speech engine reads lessons without a
+paid speech API. 
+
+Open **Learn → a chapter → Read** and use **Read lesson** above any topic lesson.
+**Pause** / **Resume** continues from the current word.
+While a lesson is reading, **double-tap a visible word in that same lesson**
+(or double-click it with a mouse) to jump there immediately and keep reading.
+The current voice and speed are retained.
+While paused, **double-tap a word in the lesson currently being read**, then press **Play** or **Resume** to read from that word. Double-tapping sets the restart point and keeps audio paused. The latest double-tap wins; tapping another lesson, a button or blank space does not change the restart point. Selecting or highlighting a word still works too. The latest selected word is remembered even after the selection menu closes or the highlight is saved. With no new selection, playback resumes from the paused word.
+**Stop** ends reading. Visible teaching text and the answers in **Apply this
+lesson to the exam** are read. Each exam answer begins with **“Answer.”**, even
+when its Show Answer panel is collapsed. Other hidden content is skipped. Narration stops when navigating away, opening profile
+screens, signing out, or putting the app in the background. Audio focus is
+released when reading ends or is interrupted by another app.
+
+During narration, a circular **Pause / Play** button stays near the top-left
+corner, just below the app header, even as the lesson scrolls. Pause keeps the
+button visible with a Play icon; Play resumes from the latest word or phrase position
+reported by the voice, or from the start of the current passage. The floating
+and inline controls always show the same playback state. The button is **70%
+opaque when it overlaps visible text**, and fully opaque over empty space. This
+also works for voice previews. It disappears when reading ends or is stopped,
+when navigating away, signing out, or when the app goes into the background.
+
+With voices that report precise word timing, the word currently being spoken
+turns red without changing its background and stays visible as narration moves
+down the page. This cursor does not alter
+saved highlights, lesson text or progress backups, and disappears when reading
+pauses, stops, finishes, or the profile is closed.
+
+Long-press a word in a lesson, then choose **Read from here** from the Android
+text-selection menu. Reading starts at that word, or jumps there if already
+playing. The browser selection toolbar offers the same action alongside Highlight,
+Highlighter Colour and, when the selection includes a saved mark, Remove Highlight. Copy and the existing Android text-selection actions
+remain available. The action applies to visible lesson text, including revealed
+answers, and is unavailable outside a readable lesson or while a dialog is open.
+
+Word tracking follows Android's `onRangeStart` or browser word-boundary events.
+Lessons always play as continuous passages, including with voices that supply
+no word timing or only phrase timing. The reader does not split the passage into
+individual word utterances. The spoken-word cursor appears only when the voice
+provides precise word timing; broad phrase callbacks leave speech playing and
+clear the cursor. Pause / Resume uses the latest word or phrase position when
+available, or restarts the current passage. No estimated word-duration timer is used. Character
+mapping keeps repeated words, inline formatting and spoken symbols attached to
+the correct displayed text. Modern WebViews use CSS custom highlights; older
+WebViews use a transparent overlay that draws only the spoken word in red
+with its original font, without a background box or changes to lesson nodes. After the spoken-word
+cursor moves or clears, any saved highlight beneath it keeps its saved colour.
+
+Settings offers **Midnight, Ocean, Forest, Amethyst, Burgundy, Slate, Daylight,
+and Warm paper**. The final two are light themes. Page surfaces, controls,
+readable text and Android system bars use the selected palette. The signed-out
+screen returns to the default theme. Reading tools sit outside lesson text so
+existing saved highlight anchors remain unchanged.
 
 ## Lesson highlights
 
@@ -27,12 +156,22 @@ and choose **Highlight**. The selected passage uses your chosen highlighter colo
 Copy and the other standard Android selection actions remain available.
 Choose **Highlighter Colour** from the same selection menu to choose from
 **Yellow, Green, Cyan, Blue, Purple, Pink, Orange, and Red**. The choice is saved
-per user and applies to the next text highlighted. Existing marks keep their
-colours; selecting a saved passage again and choosing Highlight can recolour it.
-The browser preview offers the same two actions in a small selection toolbar.
+per user and applies to the next text highlighted. When the selection includes
+saved highlights, choosing a colour also recolours the highlighted parts of that
+selection immediately. Unselected highlights and any plain text within the selection
+keep their appearance. Choosing the already preferred colour still recolours
+selected marks that use another colour. Close or Back cancels the colour list.
+
+Select highlighted text and choose **Remove Highlight** to erase the selected
+portion. If the selection covers only part of a mark, its other portions keep
+their colours. Removal clears any older overlapping marks beneath that portion,
+so a previous colour does not reappear. The browser preview offers these actions
+in its selection toolbar; Android may place them under the menu’s More button.
 
 Highlights save with the signed-in user’s progress and return when that user
-reopens the lesson. They remain separate between profiles and are included in
+reopens the lesson, including after the app is closed and opened again. Recolouring
+and removal are saved too. A failed save retains the previous highlights and
+colour preference. They remain separate between profiles and are included in
 both encrypted User backups and progress .carprog backups. Importing a progress
 backup merges distinct highlights without duplicating repeated imports.
 Older progress without highlights still loads normally. Existing highlights
@@ -59,7 +198,7 @@ https://developer.android.com/reference/android/view/ActionMode.Callback2
    **Update** if the previous version is already installed. Keep the app
    installed to retain your scores and notes.
 3. If Android asks, allow that Files app to install the downloaded APK.
-4. Launch **Canadian Amature Radio Study Guide and Reference**.
+4. Launch **Canadian Amature Radio Unofficial Basic Certificate Study Guide And Reference**.
 
 Requires Android 8.0 or newer and an updated Android System WebView. ARM, ARM64
 and x86 devices use the same APK. All lessons, questions, definitions and labs
@@ -96,22 +235,6 @@ position in the formula list. The persistent Glossary remains available without
 losing the formula page. Formula lookup does not change study progress.
 
 ## User profiles and login
-
-**Delete User** is available on the selected user’s password page before login
-and in **Profile settings**. Deletion does **not** require a password, including
-for a user whose password has been forgotten. A separate confirmation displays
-the selected name and avatar and explains what will be removed. **Cancel** or
-Android Back keeps the user.
-
-Confirming removes that user’s encrypted profile, avatar, optional call sign,
-notes, highlights, scores, unfinished tests and other study progress from the
-active profile vault on this device, then returns to the login screen. Other
-users and exported backup files are kept. A previously exported complete User
-.carprog backup can restore the deleted profile using its export-time password.
-Email recovery is not a cloud profile backup. Deletion works offline.
-
-A failed storage write leaves the saved profile and current session intact.
-Deleting the last user leaves Add New User available; a new profile starts fresh.
 
 Use **Export User** for the complete encrypted backup: it includes the avatar,
 optional call sign, username, email, password protection, recovery configuration
@@ -193,7 +316,8 @@ omits the user's profile/password; use **Export User** for protected transfers.
   and review any attempt. Tests with feedback are labelled separately.
 - An unfinished test saves after each answer and resumes after reopening.
 - **223 glossary definitions**, with searchable terms, categories and examples.
-  A persistent **Glossary** button opens a lookup over every screen, including
+  A persistent **Glossary** button opens a lookup on study screens and other
+  profile screens (except Choose your user profile), including
   tests, labs and notes, without losing the current place or input.
   Requested entries include VOX, CTCSS, DCS, gain, OWNID, FM, NFM, AM, CW and USB.
 - A separate **mode definitions and examples** page, formula desk, Canadian band
@@ -206,6 +330,34 @@ omits the user's profile/password; use **Export User** for protected transfers.
 - **Source-owner credits** from the “References & question-bank attribution”
   footer, with Crown copyright, the ISED question bank, government publishers,
   manufacturer references and direct original-source links.
+
+## Government material: accuracy and attribution
+
+The **References & question-bank attribution** footer now lists complete government
+material titles, institutional authors where available, publishers, original URLs,
+source editions and the date each original was checked. Each reproduced item has
+an explicit copy-of-version notice. The same credits are available in the
+reference desk, the question-bank source notice, and a collapsible source list
+under each chapter's reading.
+
+On **24 October 2026**, all 984 English and French exam questions and answers were
+compared with the live ISED delimited download. There were no differences in
+wording or answer keys, and the recorded source SHA-256 matched. All 12 government
+reference pages and the reproduction terms were also checked for titles,
+author/creator metadata, document editions and page dates. Original lessons and
+simulations are identified separately from copied government text.
+
+See [GOVERNMENT_SOURCES.md](GOVERNMENT_SOURCES.md) and
+`government-source-verification.json`. Before updating source material, run:
+
+```bash
+python3 scripts/verify_government_sources.py
+```
+
+This standard-library script needs internet access, reports changed or unavailable
+sources as failed checks, and does not overwrite study content. Data regeneration
+preserves the copy notice and keeps an earlier verification record only when the
+source data hash is unchanged. The signed version-2.3.20 APK includes these attribution updates.
 
 ## Chapter route
 
@@ -306,7 +458,8 @@ compress the carrier-to-audio frequency ratio. Each lab states its assumptions.
 
 ## Glossary details
 
-Tap **Glossary** in the header from any screen, even after scrolling down a
+Tap **Glossary** in the header from any study screen or profile form, except
+**Choose your user profile**, even after scrolling down a
 long lesson. Search in the overlay and use **Close**, Android Back or Escape
 to return to the same page, scroll position, test question, lab settings or note.
 Opening the overlay does not grade, submit, restart or discard a test. The
@@ -430,14 +583,13 @@ explicit migration and preserve historical answer interpretation.
 ### Stable update identity for developers
 
 - Package ID: `ca.kevin.maplewave`
-- Current version name: `2.3.12`
-- Current version code: `242`
+- Current version name: `2.3.11`
+- Current version code: `241`
 - Signing certificate SHA-256:
   `fa5c815a87afdc21b8f7a319f9dc1da676b27e166445049f0977bf1d3990cd74`
 - Keep the same keystore for updates. Increment the version code for every new
-  installed release. The original signing key is kept privately and is excluded
-  from this public repository and its downloadable source ZIP. Keep a private
-  backup of it; a different signing key cannot update the existing app.
+  installed release. The included development key is for this personal build;
+  establish the intended production signing setup before store distribution.
 
 The optional `REQUEST_INSTALL_PACKAGES` permission is used only for the
 user-selected APK update flow. The app uses Internet permission only for user-configured HTTPS email recovery;
@@ -467,7 +619,6 @@ scripts/build_apk.py                 Direct Android SDK/ECJ build
 tests/core.test.cjs                  Bank, exam, storage and RF checks
 tests/profiles.test.cjs              Encryption, migration and profile separation
 tests/profiles-ui.test.cjs           Login, avatars, transfer and reset UI
-tests/delete-user-ui.test.cjs        Password-free deletion, cancellation and failures
 tests/native_crypto.test.cjs         Native/Web Crypto checkpoint compatibility
 recovery_service/server.py          Optional HTTPS-proxied SMTP recovery backend
 tests/test_recovery_service.py       Code expiry, replay, ownership and mail failures
@@ -483,16 +634,14 @@ tests/android_smoke.py               Actual Android emulator smoke workflow
 Open this directory in Android Studio and sync the Gradle project. It uses
 Android Gradle Plugin 8.13.0, JDK 17 and compile/target SDK 36. Install those tools
 through Android Studio if needed. The first sync requires downloads. There are
-no external app runtime libraries. For a compatible personal update, restore
-the original private keystore at `android_development/debug.keystore` before
-building. This ignored key is excluded from the repository and source ZIP. The included Gradle 8.13 wrapper downloads its distribution on first use. You can also build with `./gradlew assembleDebug` (`gradlew.bat assembleDebug` on Windows). The wrapper retains its Gradle / Apache 2.0 notices in `GRADLE_WRAPPER_LICENSE.txt`.
+no external app runtime libraries. Use the supplied development signing config
+for a compatible personal update. The included Gradle 8.13 wrapper downloads its distribution on first use. You can also build with `./gradlew assembleDebug` (`gradlew.bat assembleDebug` on Windows). The wrapper retains its Gradle / Apache 2.0 notices in `GRADLE_WRAPPER_LICENSE.txt`.
 
 ### Direct SDK build
 
 Install Android SDK platform 36 and build-tools 36.0.0, plus Eclipse ECJ 3.39.0.
 The build script uses Python 3 only to orchestrate the tools; the APK contains
-no Python interpreter. Restore the original private keystore at
-`android_development/debug.keystore` before building. Set `ANDROID_HOME`, `ANDROID_JAR`,
+no Python interpreter. Set `ANDROID_HOME`, `ANDROID_JAR`,
 `ANDROID_BUILD_TOOLS`, and `ECJ_JAR` for your tool locations, then run:
 
 ```bash
@@ -502,7 +651,7 @@ python3 scripts/build_apk.py
 For the next compatible release:
 
 ```bash
-APP_VERSION_CODE=242 APP_VERSION_NAME=2.3.12 python3 scripts/build_apk.py
+APP_VERSION_CODE=241 APP_VERSION_NAME=2.3.11 python3 scripts/build_apk.py
 ```
 
 The direct builder first checks every question against its matching teaching
@@ -558,3 +707,105 @@ This independent app is not produced or endorsed by ISED. It teaches the Basic
 syllabus and does not provide an Advanced course or grant operating authority.
 Use current official sources for operating decisions and future bank changes.
 See `COPYRIGHT.txt` for original-content and third-party notices.
+
+### Official Question Bank browsing
+
+All four multiple-choice answers are visible before opening a question. Tap the
+question to reveal or hide the official correct answer and its displayed letter.
+Choices are shuffled when results render. Browsing does not create a test score.
+
+Question Bank choices are tappable. A green checkmark identifies a correct guess;
+a red X identifies a wrong guess. Either reveals the official correct answer.
+These informal guesses do not create saved test scores.
+
+### Sound effects (2.3.20)
+The four user-supplied MP3 files are bundled offline: welcome on successful sign-in,
+correct/incorrect feedback in Question Bank and checked Study answers, test-pass
+for a submitted score of at least 70%, and incorrect for a failed test. Test mode
+does not reveal answer correctness before submission. Settings → Sound effects
+turns all effects on or off per profile (default on); encrypted User backups
+include this choice. Sounds stop on sign-out or backgrounding and never overlap.
+
+## Farewell audio (2.3.21)
+
+The supplied “Bye, see you again soon.” recording plays after progress saves on sign out and before an in-app Back exit (including the profile chooser). Lesson narration stops first. Sound effects mute also mutes the farewell. Completion, audio failure, interruption or a 15-second timeout releases the action. Android Home, task removal and force-stop do not play farewell audio.
+
+## Password visibility (2.3.22)
+
+Every password field has its own Show/Hide button, including sign-in, new-user confirmation, password changes, resets and backup import/export. Passwords start hidden whenever a form opens; toggling visibility preserves the entered value and does not submit the form.
+
+## Password error sound (2.3.23)
+
+The supplied Oops recording plays with the existing error message for incorrect sign-in/current passwords and password-confirmation mismatches in create, change and reset forms. Password failures during encrypted backup import/export also play it (the existing error can also indicate damaged encrypted data). Other errors and lockout wait messages do not play Oops. Signed-in sound-effects mute is respected; the locked login screen uses the default enabled setting. Playback failure never blocks retrying.
+
+## Phonetic alphabet learning (2.3.24)
+
+Open Learn → Open phonetic alphabet, or use the card in the reference desk or
+on-air guide. Tap any of 26 letters for its bundled VoiceLabs WAV recording,
+play A–Z, or enter up to 20 characters to spell a word or call sign. Digits are
+shown individually; recordings cover letters only. A ten-letter listening
+practice offers replay, four choices, immediate feedback and a final score.
+Practice scores are session-only and do not affect official exam progress.
+Audio stops on navigation, profile changes, backgrounding and Stop audio.
+These intentional learning recordings play even when incidental sound effects
+are disabled. ©️ Kevin W. Brown 2026 is preserved.
+
+## Copyright footer version (2.3.25)
+
+Every page, including the profile chooser, shows the installed app version
+directly below ©️ Kevin W. Brown 2026 and above the references link.
+
+## Footer order (2.3.26)
+
+The References and Question Bank Attribution link appears above the copyright
+on every page, followed by the installed app version below the copyright.
+
+## First login greeting (2.3.27)
+
+New profiles play the supplied “Welcome” MP3 on their first successful password login. Later logins play the existing welcome-back recording. Existing profiles without the new first-login flag retain the normal greeting. The pending flag is encrypted with the profile and included in User backups. Failed passwords do not consume it. Sound effects settings apply to both greetings.
+
+The home page no longer displays the Try antenna tuning shortcut. Antenna tuning remains available through Labs.
+
+## Home-page ITU alphabet chart (2.3.28)
+
+Directly beneath Turn curiosity into a call sign, a card titled International Telecommunication Union phonetic alphabet displays all 26 letters in alphabetical order. Its three columns show the letter, ITU equivalent and pronunciation. The offline chart uses the existing phonetic word list and pronunciation from ISED RIC-22 section 4.3, checked 26 October 2026. The chart shows CHAR LEE for Charlie and YOU NEE FORM for Uniform; alternative pronunciations are omitted at Kevin’s request.
+
+## Collapsible home ITU chart (2.3.30)
+
+The title and introductory text remain visible. A centered arrow button reveals or hides the table and source link. The box starts collapsed each time the home page is opened. The arrow and accessible expanded state update together.
+
+## ITU alphabet speech
+
+**Play ITU Alphabet ONLY** sits below Play in the home ITU alphabet box. It
+reads only the 26 spelling words in order: Alfa, Bravo, Charlie, through Zulu.
+It uses the selected reading voice at 0.8× speed. The existing Play/Pause and
+Stop controls also control this playback. Pressing the new button starts again
+from Alfa, and it works while the chart is collapsed.
+
+
+Play/Pause and Stop stay visible at the top right of the home alphabet box while the chart is collapsed. The existing Android TTS reader speaks A is for Alfa through Z is for Zulu with the profile’s reading voice and speed. Pause retains the current letter; Play resumes at that letter. Stop resets to A. Leaving the page, signing out, or backgrounding the app stops speech. The chart retains the official spelling Alfa.
+
+
+Version 2.3.34: the home ITU phonetic alphabet TTS plays at 0.8× normal speed. Lesson narration retains the selected profile reading speed.
+
+Version 2.3.35 (265): Settings swaps Preview voice and Stop reading in one fixed position. Refresh voices is amber, appears after a voice edit or opening phone voice settings, and hides when clicked.
+
+Version 2.3.36 (266): Preview voice plays a sample using the currently displayed voice and speech speed. Each press captures the latest controls, and the sample works independently of the sound-effects toggle.
+
+Version 2.3.37 (267): Lessons read in continuous passages. Missing or phrase-only timing no longer causes a pause after every word; precise word callbacks still drive the temporary spoken-word cursor.
+
+Version 2.3.38 (268): Lesson narration includes each exam answer and its explanation while collapsed, announcing “Answer.” before the answer. Visual answer toggles and saved highlight offsets stay unchanged.
+
+Version 2.3.39 (269): The current spoken word uses red text and no temporary background colour. Modern WebViews and the older-WebView overlay use the same appearance.
+
+Version 2.3.40 (270): Added Play ITU Alphabet ONLY beneath Play to read just the 26 ITU spelling words from Alfa to Zulu, using the existing 0.8× alphabet reader and shared playback controls.
+
+Version 2.3.41 (271): While lesson reading is paused, double-tap a visible word in that same lesson to set the next Play/Resume position. Touch and mouse double-clicks retain exact source offsets, including repeated words and saved highlights.
+
+Version 2.3.42 (272): Added offline Help through a pale-pink HELP shortcut below Glossary, with Back restoring the existing screen, scroll position and controls. Includes the ITU-only and paused double-tap features.
+
+Version 2.3.43 (273): Added live offline Search Help with expanded matching topics, result counts, an empty state and Clear. Back still restores the original screen and position.
+
+Version 2.3.44 (274): Double-tap or double-click a word while its lesson is reading to jump there immediately. Paused reading still waits for Play/Resume after choosing a word. Includes Search Help from 2.3.43.
+
+Version 2.3.45 (275): Added a completed-chapters test in Tests with eight questions per completed chapter, exact totals, saved chapter-set comparisons and full resume/review support.

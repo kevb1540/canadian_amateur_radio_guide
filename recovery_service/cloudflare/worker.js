@@ -123,7 +123,7 @@ async function challenge(env, row, purpose, recipient, mac, now, registration = 
   const label = purpose === 'verify' ? 'email verification' : 'password reset';
   try {
     await mail(env, env.DB, now, recipient, 'Canadian radio workbook: ' + label + ' code',
-      'Your ' + label + ' code is: ' + code + '\n\nEnter it in the Canadian Amature Radio Study Guide and Reference app.\nIt expires in 10 minutes and can be used once.\n\nIf you did not request this code, ignore this message. Never share it. No password or study progress is included in this email.');
+      'Your ' + label + ' code is: ' + code + '\n\nEnter it in the Canadian Amature Radio Unofficial Basic Certificate Study Guide And Reference app.\nIt expires in 10 minutes and can be used once.\n\nIf you did not request this code, ignore this message. Never share it. No password or study progress is included in this email.');
   } catch (e) {
     await env.DB.prepare('UPDATE recovery_users SET code_hash=NULL,code_expires=0 WHERE id=? AND challenge_id=?').bind(row.id, nonce).run();
     throw e;

@@ -23,6 +23,8 @@
 #lesson-highlight-menu button{min-height:44px;background:#fff176;color:#151515;font-weight:750;border:0;border-radius:8px;padding:9px 15px}
 #lesson-highlight-menu{display:flex;gap:5px;max-width:calc(100vw - 16px)}
 #lesson-highlight-menu[hidden]{display:none}
+#lesson-highlight-menu button[hidden]{display:none}
+#lesson-highlight-menu #remove-selected-highlight{background:var(--panel2);color:var(--text);border:1px solid var(--line);font-size:.8rem;padding:8px 10px}
 #lesson-highlight-menu #choose-highlighter-colour{background:var(--panel2);color:var(--text);border:1px solid var(--line);font-size:.8rem;padding:8px 10px}
 #highlighter-colour-dialog{max-width:420px}
 #highlighter-colour-dialog h2{margin:0}
@@ -92,4 +94,47 @@
 .onair-conversation dt{font-size:.72rem;color:var(--accent);font-weight:750;margin-top:12px}
 .onair-conversation dd{margin:4px 0 0;font-size:.9rem;overflow-wrap:anywhere}
 
-.btn.danger{color:#fff;background:#a82837;border-color:#e96572;font-weight:800}.btn.danger:hover{background:#bd3142}.btn.danger:focus-visible{outline:3px solid var(--profile-warning);outline-offset:3px}
+/* Full government URLs and source checksums must fit narrow phone screens. */
+.source-credit,.source-reproduction,.source-original-url,.source-verification,.source-checksum{overflow-wrap:anywhere;word-break:normal}.source-credit h3{font-size:.95rem}.chapter-source-credits .source-credit{margin-top:18px}
+
+/* Larger branding with an explicit subtitle break, including small phones. */
+:root{--appbar-height:112px;--brand-title-size:.88rem;--brand-subtitle-size:.7rem}
+.appbar{padding-top:10px;padding-bottom:10px}
+.brand{flex:1;font-size:var(--brand-title-size);line-height:1.2;letter-spacing:.025em}
+.brand small{font-size:var(--brand-subtitle-size);line-height:1.25;letter-spacing:.015em;margin-top:4px}
+.glossary-shortcut[hidden]{display:none}
+body.profile-choice-screen{--brand-title-size:1.05rem;--brand-subtitle-size:.76rem}
+@media(max-width:360px){:root{--brand-title-size:.82rem;--brand-subtitle-size:.68rem}body.profile-choice-screen{--brand-title-size:1rem;--brand-subtitle-size:.66rem}}
+@media(min-width:700px){:root{--brand-title-size:1.15rem;--brand-subtitle-size:.85rem}body.profile-choice-screen{--brand-title-size:1.2rem;--brand-subtitle-size:.9rem}}
+
+.page-footer{margin-top:35px}.footer-signout{display:flex;justify-content:center;margin-bottom:12px}.page-footer .copyright{margin-top:0}
+
+.bank-answer-hint{display:block;margin-top:8px}.bank-choices{padding-left:28px;margin:16px 0 0}.bank-choices li{padding:5px 0;line-height:1.6}
+
+.bank-choices{list-style:none;padding-left:0}.bank-choice{display:flex;align-items:center;justify-content:space-between;gap:12px;width:100%;min-height:48px;padding:12px;text-align:left;border:1px solid var(--line);border-radius:10px;background:var(--panel);color:var(--text);font:inherit;cursor:pointer}.bank-choice.guess-correct{border-color:#35b96a}.bank-choice.guess-wrong{border-color:#f26666}.bank-guess-mark{font-weight:900;font-size:1.4rem;flex-shrink:0}.guess-correct .bank-guess-mark{color:#35b96a}.guess-wrong .bank-guess-mark{color:#f26666}.bank-choice:focus-visible{outline:3px solid var(--accent);outline-offset:2px}.bank-guess-feedback{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap}
+
+/* Password visibility controls stay beside their own input on small screens. */
+.password-field{display:flex;align-items:center;gap:8px;margin-bottom:12px}
+.password-field input{flex:1;min-width:0;margin-bottom:0}
+.password-field button{flex-shrink:0;min-height:44px}
+
+.phonetic-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(110px,1fr));gap:10px;margin-top:16px}.phonetic-grid .btn{display:flex;flex-direction:column;align-items:center;gap:4px;min-height:76px}.phonetic-grid strong{font-size:1.5rem}#phonetic-spelling{overflow-wrap:anywhere}
+
+/* Home-page ITU reference chart: wrap syllables within narrow phone screens. */
+.itu-alphabet h2{overflow-wrap:anywhere}
+.itu-alphabet-table{width:100%;table-layout:fixed;border-collapse:collapse;font-size:.85rem}
+.itu-alphabet-table th,.itu-alphabet-table td{padding:10px 6px;text-align:left;vertical-align:top;border-bottom:1px solid var(--line);overflow-wrap:anywhere}
+.itu-alphabet-table th:first-child{width:17%}
+.itu-alphabet-table th:nth-child(2){width:33%}
+.itu-alphabet-table tbody th{color:var(--accent)}
+.itu-alphabet-source{margin-top:16px;margin-bottom:0}
+
+.itu-alphabet-toggle{display:flex;align-items:center;justify-content:center;min-width:44px;min-height:44px;margin:0 auto}
+#itu-alphabet-content[hidden]{display:none}
+#itu-alphabet-content{margin-top:16px}
+
+.itu-alphabet-header{display:flex;align-items:flex-start;justify-content:space-between;gap:10px;flex-wrap:wrap}
+.itu-alphabet-header h2{flex:1 1 180px}
+.itu-alphabet-audio{display:grid;grid-template-columns:1fr auto;gap:6px;margin-left:auto;justify-content:end;max-width:100%}
+#itu-tts-only{grid-column:1 / -1;white-space:normal}
+.itu-alphabet-audio .btn{min-height:44px;padding:8px 10px;font-size:.8rem}

@@ -35,6 +35,8 @@ public final class MainActivity extends Activity {
     private static final int EXPORT = 41, IMPORT = 42, UPDATE = 43, INSTALL_PERMISSION = 44, AVATAR_FILE=51, AVATAR_CAMERA=52;
     private static final int MAX_STATE = 64 * 1024 * 1024;
     private WebView web;
+    private FrameLayout appRoot;
+    private LessonSpeech lessonSpeech;
     private LessonSelectionCallback currentLessonSelection;
     private AtomicFile state;
     private AtomicFile profileVault;
@@ -48,6 +50,7 @@ public final class MainActivity extends Activity {
         getWindow().setStatusBarColor(Color.rgb(11, 18, 31));
         getWindow().setNavigationBarColor(Color.rgb(11, 18, 31));
         FrameLayout root = new FrameLayout(this);
+        appRoot = root;
         root.setBackgroundColor(Color.rgb(11,18,31));
         web = new LessonWebView();
         web.setBackgroundColor(Color.rgb(11,18,31));
@@ -62,6 +65,7 @@ public final class MainActivity extends Activity {
         if(Build.VERSION.SDK_INT>=33){getOnBackInvokedDispatcher().registerOnBackInvokedCallback(0,()->dispatchBack());}
         WebSettings s = web.getSettings();
         s.setJavaScriptEnabled(true);
+        s.setMediaPlaybackRequiresUserGesture(false);
         s.setDomStorageEnabled(true);
         s.setAllowFileAccess(false);
         s.setAllowContentAccess(false);
@@ -79,14 +83,25 @@ public final class MainActivity extends Activity {
                 if (path.contains("..") || !path.matches("/[a-zA-Z0-9_./-]+")) return denied();
                 String mime = path.endsWith(".js") ? "application/javascript" :
                     path.endsWith(".css") ? "text/css" : path.endsWith(".json") ? "application/json" :
-                    path.endsWith(".png") ? "image/png" : "text/html";
-                try { return new WebResourceResponse(mime,mime.startsWith("image/")?null:"UTF-8",getAssets().open(path.substring(1))); }
+                    path.endsWith(".png") ? "image/png" : path.endsWith(".mp3") ? "audio/mpeg" : "text/html";
+                try { return new WebResourceResponse(mime,(mime.startsWith("image/")||mime.startsWith("audio/"))?null:"UTF-8",getAssets().open(path.substring(1))); }
                 catch (IOException e) { return denied(); }
             }
             @Override public boolean shouldOverrideUrlLoading(WebView view, WebResourceRequest request) {
                 if (ORIGIN.equals(request.getUrl().getScheme()+"://"+request.getUrl().getHost())) return false;
                 if(request.isForMainFrame()) openExternal(request.getUrl().toString());
                 return true;
+            }
+        });
+        lessonSpeech = new LessonSpeech(this, new LessonSpeech.Events() {
+            public void speech(String id, String event, String message) {
+                if(web!=null)web.evaluateJavascript("window.onLessonSpeechEvent && window.onLessonSpeechEvent("+JSONObject.quote(id)+","+JSONObject.quote(event)+","+JSONObject.quote(message)+")",null);
+            }
+            public void boundary(String id, int start, int end) {
+                if(web!=null)web.evaluateJavascript("window.onLessonSpeechBoundary && window.onLessonSpeechBoundary("+JSONObject.quote(id)+","+start+","+end+")",null);
+            }
+            public void voicesChanged() {
+                if(web!=null)web.evaluateJavascript("window.onLessonVoicesChanged && window.onLessonVoicesChanged()",null);
             }
         });
         web.loadUrl(ORIGIN+"/index.html");
@@ -106,8 +121,10 @@ public final class MainActivity extends Activity {
     private final class LessonSelectionCallback extends android.view.ActionMode.Callback2 {
         private static final int HIGHLIGHT=0x6d770001;
         private static final int HIGHLIGHT_COLOUR=0x6d770002;
+        private static final int READ_FROM_HERE=0x6d770003;
+        private static final int REMOVE_HIGHLIGHT=0x6d770004;
         private final android.view.ActionMode.Callback original;
-        private boolean closed=false,available=false;
+        private boolean closed=false,available=false,highlighted=false;
         private android.view.ActionMode currentMode;
         private int revision=0;
         LessonSelectionCallback(android.view.ActionMode.Callback original){this.original=original;}
@@ -115,23 +132,27 @@ public final class MainActivity extends Activity {
             boolean changed=false;
             if(menu.findItem(HIGHLIGHT)==null){menu.add(android.view.Menu.NONE,HIGHLIGHT,60,"Highlight").setVisible(available).setShowAsAction(android.view.MenuItem.SHOW_AS_ACTION_IF_ROOM);changed=true;}
             if(menu.findItem(HIGHLIGHT_COLOUR)==null){menu.add(android.view.Menu.NONE,HIGHLIGHT_COLOUR,61,"Highlighter Colour").setVisible(available).setShowAsAction(android.view.MenuItem.SHOW_AS_ACTION_NEVER);changed=true;}
+            if(menu.findItem(READ_FROM_HERE)==null){menu.add(android.view.Menu.NONE,READ_FROM_HERE,62,"Read from here").setVisible(available).setShowAsAction(android.view.MenuItem.SHOW_AS_ACTION_NEVER);changed=true;}
+            if(menu.findItem(REMOVE_HIGHLIGHT)==null){menu.add(android.view.Menu.NONE,REMOVE_HIGHLIGHT,63,"Remove Highlight").setVisible(available&&highlighted).setShowAsAction(android.view.MenuItem.SHOW_AS_ACTION_NEVER);changed=true;}
             return changed;
         }
-        private void setAvailable(android.view.Menu menu,boolean next){
-            available=next;
-            for(int id:new int[]{HIGHLIGHT,HIGHLIGHT_COLOUR}){android.view.MenuItem item=menu.findItem(id);if(item!=null)item.setVisible(available);}
+        private void setAvailable(android.view.Menu menu,boolean next,boolean marked){
+            available=next;highlighted=next&&marked;
+            for(int id:new int[]{HIGHLIGHT,HIGHLIGHT_COLOUR,READ_FROM_HERE}){android.view.MenuItem item=menu.findItem(id);if(item!=null)item.setVisible(available);}
+            android.view.MenuItem remove=menu.findItem(REMOVE_HIGHLIGHT);if(remove!=null)remove.setVisible(highlighted);
         }
-        void selectionChanged(boolean next){
+        void selectionChanged(boolean next,boolean marked){
             if(closed||currentMode==null)return;
             revision++;
-            if(next!=available){setAvailable(currentMode.getMenu(),next);currentMode.invalidate();}
+            if(next!=available||(next&&marked)!=highlighted){setAvailable(currentMode.getMenu(),next,marked);currentMode.invalidate();}
         }
         private void refresh(android.view.ActionMode mode,android.view.Menu menu){
             final int request=++revision;
-            web.evaluateJavascript("Boolean(window.lessonHighlightSelection && window.lessonHighlightSelection())",result->{
+            web.evaluateJavascript("window.lessonHighlightSelectionState ? window.lessonHighlightSelectionState() : {available:false,highlighted:false}",result->{
                 if(closed||request!=revision)return;
-                boolean next="true".equals(result);
-                if(next!=available){setAvailable(menu,next);mode.invalidate();}
+                boolean next=false,marked=false;
+                try{JSONObject selection=new JSONObject(result);next=selection.optBoolean("available");marked=selection.optBoolean("highlighted");}catch(Exception ignored){}
+                if(next!=available||(next&&marked)!=highlighted){setAvailable(menu,next,marked);mode.invalidate();}
             });
         }
         @Override public boolean onCreateActionMode(android.view.ActionMode mode,android.view.Menu menu){
@@ -143,6 +164,14 @@ public final class MainActivity extends Activity {
             boolean changed=original.onPrepareActionMode(mode,menu);changed=addHighlight(menu)||changed;refresh(mode,menu);return changed;
         }
         @Override public boolean onActionItemClicked(android.view.ActionMode mode,android.view.MenuItem item){
+            if(item.getItemId()==REMOVE_HIGHLIGHT){
+                web.evaluateJavascript("Boolean(window.removeLessonHighlightSelection && window.removeLessonHighlightSelection())",result->{if(!closed&&"true".equals(result))mode.finish();});
+                return true;
+            }
+            if(item.getItemId()==READ_FROM_HERE){
+                web.evaluateJavascript("Boolean(window.readLessonFromSelection && window.readLessonFromSelection())",result->{if(!closed&&"true".equals(result))mode.finish();});
+                return true;
+            }
             if(item.getItemId()==HIGHLIGHT_COLOUR){
                 web.evaluateJavascript("Boolean(window.openLessonHighlighterColours && window.openLessonHighlighterColours())",result->{if(!closed&&"true".equals(result))mode.finish();});
                 return true;
@@ -245,9 +274,21 @@ public final class MainActivity extends Activity {
         }).start();
     }
     public final class StorageBridge {
+        @JavascriptInterface public String lessonVoices(){return lessonSpeech==null?"{\"ready\":false,\"voices\":[]}":lessonSpeech.catalogue();}
+        @JavascriptInterface public void refreshLessonVoices(){runOnUiThread(()->{if(lessonSpeech!=null)lessonSpeech.refresh();});}
+        @JavascriptInterface public void speakLessonChunk(String text,String voice,double rate,String id){runOnUiThread(()->{if(lessonSpeech!=null)lessonSpeech.speak(text,voice,rate,id);});}
+        @JavascriptInterface public void stopLessonSpeech(){runOnUiThread(()->{if(lessonSpeech!=null)lessonSpeech.stop();});}
+        @JavascriptInterface public void openSpeechSettings(){runOnUiThread(()->{if(lessonSpeech!=null)lessonSpeech.openSettings();});}
+        @JavascriptInterface public void applyColourTheme(String colour,boolean light){
+            if(colour==null||!colour.matches("#[0-9a-fA-F]{6}"))return;
+            runOnUiThread(()->{int c=Color.parseColor(colour);getWindow().setStatusBarColor(c);getWindow().setNavigationBarColor(c);if(appRoot!=null)appRoot.setBackgroundColor(c);if(web!=null){web.setBackgroundColor(c);int mask=View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR|View.SYSTEM_UI_FLAG_LIGHT_NAVIGATION_BAR;int flags=web.getSystemUiVisibility();web.setSystemUiVisibility(light?flags|mask:flags&~mask);}});
+        }
         @JavascriptInterface public boolean lessonHighlightMenu(){return true;}
         @JavascriptInterface public void lessonHighlightSelectionChanged(boolean available){
-            runOnUiThread(()->{if(currentLessonSelection!=null)currentLessonSelection.selectionChanged(available);});
+            runOnUiThread(()->{if(currentLessonSelection!=null)currentLessonSelection.selectionChanged(available,false);});
+        }
+        @JavascriptInterface public void lessonHighlightSelectionStateChanged(boolean available,boolean highlighted){
+            runOnUiThread(()->{if(currentLessonSelection!=null)currentLessonSelection.selectionChanged(available,highlighted);});
         }
         @JavascriptInterface public String load() { return readState(); }
         @JavascriptInterface public String loadProfiles(){return readProfiles();}
@@ -385,7 +426,7 @@ public final class MainActivity extends Activity {
     }
     private void dispatchBack(){if(web!=null)web.evaluateJavascript("window.appBack && window.appBack()",null);}
     @Override public void onBackPressed() { dispatchBack(); }
-    @Override protected void onPause() { super.onPause(); if(web!=null){web.evaluateJavascript("window.flushProgress && window.flushProgress()",null);web.onPause();} }
-    @Override protected void onResume() { super.onResume();if(web!=null)web.onResume(); }
-    @Override protected void onDestroy() { if(web!=null){web.removeJavascriptInterface("AndroidApp");web.destroy();}super.onDestroy(); }
+    @Override protected void onPause() { super.onPause(); if(lessonSpeech!=null)lessonSpeech.stop();if(web!=null){web.evaluateJavascript("window.stopSoundEffects && window.stopSoundEffects();window.stopLessonReading && window.stopLessonReading()",null);web.evaluateJavascript("window.flushProgress && window.flushProgress()",null);web.onPause();} }
+    @Override protected void onResume() { super.onResume();if(web!=null)web.onResume();if(lessonSpeech!=null)lessonSpeech.refresh(); }
+    @Override protected void onDestroy() { if(lessonSpeech!=null)lessonSpeech.shutdown();if(web!=null){web.removeJavascriptInterface("AndroidApp");web.destroy();}super.onDestroy(); }
 }

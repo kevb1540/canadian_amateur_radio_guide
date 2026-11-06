@@ -1,45 +1,607 @@
-# Validation for version 2.3.12
+# Validation for version 2.3.45 (275) — 30 October 2026
 
-**163 automated checks passed on 24 October 2026. All suites ran for this release.**
+**213 automated checks passed:** 73 unit checks and 140 browser checks, including
+8 completed-chapter generation/backup checks, 11 dedicated completed-chapter UI
+checks and 40 general study/UI checks. All eleven production JavaScript files
+passed syntax checks. All suites listed in validation-summary.json were rerun;
+older reports remain historical.
+
+- Tests now offers Completed chapters test. The profile's Mark chapter complete
+  list determines eligibility. With no completions, Start is disabled and Go to
+  Learn is available. The card shows included chapters and the total before
+  starting. One chapter gives 8 questions, three give 24 and all twelve give 96.
+- Core chapters receive exactly eight random questions each. Duplicate completion
+  entries do not increase the quota. Chapter 12 adds eight unique cumulative
+  review questions after the core selections. Questions/answers are shuffled;
+  the official bank and completion list remain unchanged.
+- Verified no short/duplicate tests, exact quotas across seeded runs, the
+  96-question limit, grading and JSON backup/merge validation. Existing storage
+  schema and profile encryption formats are unchanged.
+- Real UI flows verify marking complete, starting, replacement/cancel, selecting
+  answers/flags, Save & leave, app reopening, resume, submission, score filtering
+  and answer review. Retry uses the saved chapter set; Tests uses the latest
+  completion list. Combined scores do not award individual chapter badges.
+- Profile isolation and light/dark layouts pass at 320×740, 393×852, 852×393 and
+  800×1280. Reviewed the phone card screenshot. Help explains the new option.
+- The general study suite and all listed Help, speech, gesture, preview, ITU,
+  narration and floating-control regressions pass without JavaScript errors.
+- Built 2.3.45 (275), verified APK v2/v3 signatures, 16 KiB alignment, package,
+  version and unchanged signing certificate. All 54 bundled assets match source.
+  Native Java/resources, recordings, lessons, official questions, profile
+  encryption and backup formats remain unchanged from the supplied 2.3.44.
+- Physical Android installation/update, audio, double taps and long presses were
+  not tested. Browser speech checks use controlled callbacks.
+
+# Validation for version 2.3.44 (274) — 30 October 2026
+
+**154 automated checks passed:** 65 core/reading/voice unit checks and 89 browser
+checks, including 13 word-jump and 17 Help checks. All eleven production
+JavaScript files passed syntax checks. The suites listed in
+validation-summary.json were rerun for this release; older reports remain
+historical.
+
+- During active narration, a real touch double-tap or mouse double-click starts
+  continuous reading immediately at that exact visible word occurrence. The
+  existing voice, speed, inline Pause and floating Pause state are retained.
+- Verified backward/forward jumps, later repeated words, inline formatting and
+  saved highlights. Old completion/error/boundary callbacks cannot change the
+  restarted passage. A compatibility mouse double-click following touch does
+  not restart the passage a second time.
+- Paused double-tapping still selects a restart word without playing. Play or
+  Resume uses that word. Stopped sessions, other lessons, controls, links,
+  dialogs and blank areas do not trigger a jump. Cancelled, dragged and
+  long-held gestures do not seek either active or paused speech.
+- Touch manipulation applies only to the active reading lesson and is removed
+  on Stop/navigation. Both caret hit-test APIs and navigation cancellation pass.
+- Search Help is included. Its filtering, Clear, empty state, sticky controls
+  and exact return checks pass, including drafts, selections, quizzes, media
+  and guided-lab playback. Existing voice, continuous narration, exam answers,
+  red-word tracking, floating controls, themes and ITU checks also pass.
+- Built 2.3.44 (274), verified APK v2/v3 signatures, 16 KiB alignment, package,
+  version and unchanged signing certificate. All 54 assets match final source.
+  Native Java/resources, recordings, profile storage, backups and study content
+  remain byte-identical to the saved 2.3.43 source.
+- Physical Android installation/update, audio, double taps and long presses were
+  not tested. Gesture checks use browser input; speech callbacks are controlled.
+
+# Validation for version 2.3.43 (273) — 30 October 2026
+
+**149 automated checks passed:** 65 core/reading/voice unit checks and 84 browser
+checks, including 17 Help checks. All eleven production JavaScript files passed
+syntax checks. The suites listed in validation-summary.json were rerun for this
+release; older reports remain historical.
+
+- Search Help filters topic titles and instructions as you type, opens matching
+  topics and displays a result count. Case, accents and extra spaces are ignored;
+  multiple search words may occur in any order in the same topic.
+- Verified body-text matches in initially closed topics, unmatched/literal-markup
+  queries, Clear restoring prior expansion state, keyboard focus and blank search
+  on reopening. Search and Back stay visible when results scroll.
+- Searching Help preserves the underlying lesson DOM, open answers and scroll
+  position on Back. Existing draft/caret, quiz, glossary, media and guided-lab
+  return checks pass. Phone, landscape and tablet layout checks pass in light
+  and dark themes. Reviewed the phone search-result screenshot.
+- Existing continuous narration, exam-answer cues, red spoken words, selected
+  voice previews, floating controls, ITU-only playback and paused double-tap
+  checks pass without browser JavaScript errors.
+- Built 2.3.43 (273), verified APK v2/v3 signatures, 16 KiB alignment, package,
+  version and unchanged signing certificate. All 54 assets match final source.
+  Native Java/resources, recordings, profile storage, backups and study content
+  are byte-identical to the supplied 2.3.42 source.
+- Physical Android installation/update, audio, double taps and long presses were
+  not tested. Browser speech checks use controlled engine callbacks.
+
+# Validation for version 2.3.42 (272) — 30 October 2026
+
+**144 automated checks passed:** core 32, reading preferences/backups 7,
+narration offsets/plans 6, paused selection 4, phonetics 1, voice preview 7,
+continuous reading 8, Settings/reader UI 16, floating-reader UI 8, narration UI 18,
+exam-answer narration UI 8, home ITU TTS UI 9, paused double-tap UI 8 and Help UI
+12. All eleven production JavaScript files passed syntax checks. Earlier results
+below are historical unless explicitly listed in this release summary.
+
+- Added 15 offline Help topics, including the new ITU-only and paused double-tap
+  functions. Verified the small HELP shortcut below Glossary, its pale-pink
+  #fce1eb background, dark text, and matching visibility on profile screens.
+- Help keeps the underlying screen mounted. Back restores the same lesson DOM,
+  open answer panels, expanded sections and scroll position. Tested a note draft,
+  textarea scroll/caret/focus, a quiz answer/flag/navigator and glossary search.
+- The top Back button, Android Back callback and Escape all return correctly.
+  The Help Back control stays at the top while Help content scrolls.
+- Active narration pauses for Help and continues on Back. An already-paused
+  double-tap restart remains paused at the chosen occurrence. Letter recordings
+  retain playback time, and guided antenna tuning holds its values then resumes.
+- Help and header layout checks pass at 320×740, 393×852, 852×393 and 800×1280 in
+  light and dark themes. Reviewed the header shortcut and Help page screenshots.
+- All prior ITU-only, paused double-tap, red spoken-word text, continuous reading,
+  exam-answer cues for 984 examples, preview and floating-control checks pass
+  without browser JavaScript errors.
+- Built 2.3.42 (272), verified v2/v3 APK signatures, 16 KiB alignment, package and
+  version, unchanged signing certificate and all 54 assets against the final
+  source. Native Java, resources, recordings, signing key, core/progress schema,
+  profile encryption and study data remain unchanged from the saved 2.3.40
+  baseline. The 2.3.41 double-tap working changes are included in this release.
+- Actual phone audio, Android installation/update, physical Android double taps
+  and physical long presses were not tested. Gesture checks use browser touch
+  input; speech checks use controlled engine callbacks.
+
+# Validation for version 2.3.41 (271) — 30 October 2026
+
+**132 automated checks passed:** core 32, reading preferences/backups 7,
+narration offsets/plans 6, paused selection 4, phonetics 1, voice preview 7,
+continuous reading 8, Settings/reader UI 16, floating-reader UI 8, narration UI 18,
+exam-answer narration UI 8, home ITU TTS UI 9 and paused double-tap UI 8. All ten
+production JavaScript files passed syntax checks. Earlier results are historical
+unless explicitly listed in this release summary.
+
+- Real browser touchscreen taps on the later repeated word update the paused
+  restart point without issuing speech calls. Floating Play then reads from that
+  exact occurrence. Mouse double-click and inline Resume work too.
+- The latest tapped word wins, including a word spanning inline font elements.
+  Source offsets remain valid after selection dismissal and saved-highlight
+  repainting. Normal selection/highlighting remains another way to choose a word.
+- Points must hit visible glyphs in the current paused lesson. Other lessons,
+  controls, dialogs and blank space are ignored. Playing/stopped sessions cannot
+  be restarted by a double tap. Cancelled, dragged and long-held pointer gestures
+  do not count as double taps.
+- Verified both caret hit-test APIs and removal of the pending restart on
+  navigation. Touch manipulation applies only to the current paused lesson so
+  double tapping can choose words while scrolling and pinch zoom remain available.
+- The Play ITU Alphabet ONLY button from 2.3.40 remains included. Both 26-word
+  and 26-full-phrase sequences pass at 0.8×, with shared controls and lifecycle
+  cancellation. Existing red foreground, continuous reading, exam-answer cues,
+  theme, preview and floating-reader tests pass without JavaScript errors.
+- Built 2.3.41 (271), verified v2/v3 APK signatures, 16 KiB alignment, package and
+  version, unchanged signing certificate and all 52 assets against the final
+  source. Native Java, resources, recordings, signing key and study data remain
+  unchanged from the saved 2.3.40 working baseline.
+- Actual phone audio, Android installation/update, physical Android double taps
+  and physical long presses were not tested. Gesture checks use browser touch
+  input; speech checks use controlled engine callbacks.
+
+# Validation for version 2.3.40 (270) — 30 October 2026
+
+**124 automated checks passed:** core 32, reading preferences/backups 7,
+narration offsets/plans 6, paused selection 4, phonetics 1, voice preview 7,
+continuous reading 8, Settings/reader UI 16, floating-reader UI 8, narration UI 18,
+exam-answer narration UI 8 and home ITU TTS UI 9. All ten production JavaScript
+files passed syntax checks. Earlier reports below are historical unless listed here.
+
+- The new Play ITU Alphabet ONLY button is below Play and stays available with
+  the chart collapsed or expanded. Checked its exact label and relative position.
+- Verified all 26 emitted words from Alfa through Zulu, including Juliett and
+  X-ray, with no letter-is-for-word prefix. The selected local voice is retained
+  and the rate is 0.8× even when the profile's lesson rate is different.
+- Verified the original Play button still emits all 26 complete A is for Alfa
+  through Z is for Zulu phrases. Shared Play/Pause, floating Play and Stop retain
+  the current word, restart correctly and ignore stale completions.
+- Navigation, page hiding and sign-out cancel playback. Words-only playback does
+  not alter saved profile/study state, and a new press starts at Alfa.
+- Layout checks pass at 320×740, 393×852, 852×393 and 800×1280 in light and dark
+  themes without horizontal overflow. Reviewed cropped home alphabet screenshots.
+- Existing red spoken-word text, transparent background, continuous reading,
+  selected-word restart, exam-answer cues for all 984 examples, preview and theme
+  regressions pass without browser JavaScript errors.
+- Built 2.3.40 (270), verified v2/v3 APK signatures, 16 KiB alignment, package and
+  version, unchanged signing certificate and all 52 assets against the final
+  source. Native Java, resources, recordings, signing key and study data remain
+  unchanged from the supplied 2.3.39 source.
+- Actual phone audio, Android installation/update and physical long-press
+  interaction were not tested. Speech checks use controlled engine callbacks.
+
+# Validation for version 2.3.39 (269) — 30 October 2026
+
+**115 automated checks passed:** core 32, reading preferences/backups 7,
+narration offsets/plans 6, paused selection 4, phonetics 1, voice preview 7,
+continuous reading 8, Settings/reader UI 16, floating-reader UI 8, narration UI 18
+and exam-answer narration UI 8. All ten production JavaScript files passed syntax
+checks. Earlier reports and results below are historical unless listed here.
+
+- Modern WebViews use red (#ff0000) spoken-word text with a transparent custom
+  highlight background. Verified computed colours in light and dark themes.
+- The older-WebView path draws only red glyphs on transparent spans; it no longer
+  creates any background rectangles. Verified the original inline font weights,
+  source text and lesson DOM remain intact, and inspected the resulting screenshot.
+- Existing saved-highlight edit, repeated-word mapping, selection/restart,
+  pause/resume, stale callback, continuous reading and browser/native timing
+  regressions pass. Persistent highlight storage/paint code is unchanged.
+- All 984 exam examples still include one Answer. cue and their collapsed answers;
+  worked explanations and the visible answer-toggle state remain correct.
+- Settings and floating controls pass existing theme, phone, landscape and tablet
+  layout checks with no browser JavaScript errors.
+- Built 2.3.39 (269), verified v2/v3 APK signatures, 16 KiB alignment, package and
+  version, unchanged signing certificate and all 52 bundled assets against the
+  final source. Native Java, resources, signing key, study data and speech
+  controller remain unchanged from the supplied 2.3.38 source.
+- Actual phone audio, Android installation/update and physical long-press
+  interaction were not tested. Speech checks use controlled engine callbacks.
+
+# Validation for version 2.3.38 (268) — 29 October 2026
+
+**115 automated checks passed:** core 32, reading preferences/backups 7,
+narration offsets/plans 6, paused selection 4, phonetics 1, voice preview 7,
+continuous reading 8, Settings/reader UI 16, floating-reader UI 8, narration UI 18
+and exam-answer narration UI 8. All ten production JavaScript files passed syntax
+checks. Earlier reports and results below are historical unless listed above.
+
+- Checked all 984 official exam examples in the actual rendered chapter pages:
+  each collapsed answer is included with exactly one spoken Answer. cue. The
+  ordinary Correct answer: label is replaced only in the speech text; false-
+  statement labels and their explanations remain intact.
+- The Read lesson button sends the expected answers to the Android speech bridge
+  without revealing panels, changing the lesson DOM or saving study-state edits.
+  Expanded answers produce the same speech text without duplicate cues. Worked
+  calculations and explanations are included while collapsed.
+- The exception applies only to the exam answer's collapsed wrapper. Unrelated
+  hidden text, hidden ancestor sections, nested hidden elements and closed
+  details remain excluded. Button labels are not narrated.
+- Verified visible question/answer range mapping, selection source offsets,
+  inline formatting and saved-highlight nodes. Synthetic Answer. cues and hidden
+  answer words do not highlight unrelated visible text.
+- Existing continuous-speech, exact word timing, no-timing and phrase-timing,
+  pause/resume, selected-word restart, preview, floating controls, profile/theme
+  and older-WebView highlight-overlay regressions pass without script errors.
+- Built 2.3.38 (268), verified v2/v3 APK signatures, 16 KiB alignment, package and
+  version, unchanged signing certificate and all 52 assets against the final
+  source. Native Java, resources, signing key, question bank and course data are
+  unchanged from the supplied 2.3.37 source.
+- Actual phone audio, Android installation/update and physical long-press
+  interaction were not tested. Speech checks use controlled engine callbacks.
+
+# Validation for version 2.3.37 (267) — 28 October 2026
+
+**107 automated checks passed:** core 32, reading preferences/backups 7,
+narration offsets/plans 6, paused selection 4, phonetics 1, voice preview 7,
+continuous reading 8, Settings/reader UI 16, floating-reader UI 8 and narration UI
+18. All ten production JavaScript files passed syntax checks. Older results and
+reports below are historical unless explicitly included in this release summary.
+
+- Reproduced the regression with voices that provide no word boundaries: the old
+  reader first spoke a one-word probe, then queued a new utterance for each word.
+  Removed both the probe and the per-word fallback. Full passages now remain
+  intact regardless of missing or phrase-only timing.
+- Verified native and browser voices with no timing, phrase-wide timing, repeated
+  lessons, long multi-chunk lessons and exact word boundaries. Phrase callbacks
+  do not cancel or replace the active utterance. Precise boundaries still move
+  the word cursor; missing timing does not leave an inaccurate word highlighted.
+- Verified selected voice/rate, Preview voice, pause/resume, stale callbacks,
+  selected-word restart, saved-highlight editing, profile isolation and the
+  phonetic alphabet's full-letter phrases at 0.8× speed.
+- The complete narration UI suite passes. Updated its former per-word fallback
+  expectations for continuous speech, its cross-inline Contact highlight check,
+  its selection-toolbar scrolling setup and its current sign-out selector.
+  No highlight or toolbar production implementation changes were required.
+- All eight theme checks and phone/landscape/tablet layout checks pass, with no
+  browser JavaScript errors. Existing word-cursor and older-WebView overlay
+  appearance checks pass alongside the new continuous-speech behavior.
+- Built 2.3.37 (267), verified v2/v3 APK signatures, 16 KiB alignment, package and
+  version, matching signing certificate, and all 52 bundled assets byte-for-byte
+  against the final source. Native Java, resources, signing key and study data
+  remain unchanged from the supplied source.
+- Actual phone audio, Android installation/update and physical long-press
+  interaction were not tested. Speech tests use controlled engine callbacks.
+
+# Validation for version 2.3.36 (266) — 28 October 2026
+
+**81 focused automated checks passed:** core 32, reading preferences/backups 7,
+narration offsets/plans 6, paused selection 4, phonetics 1, current-control voice
+preview 7, Settings/reader UI 16 and floating-reader UI 8. All ten bundled
+JavaScript files passed syntax checks. Earlier reports and validation below are
+historical unless explicitly included above.
+
+- Preview takes a fresh snapshot of the visible voice and speed controls on every
+  press, including the live slider value. It does not overwrite saved preferences.
+  Both the native bridge and browser synthesis receive the selected voice/rate.
+- Checked default selection, unavailable voices, sound effects disabled, repeated
+  samples, completion, cancellation, stale callbacks, pending saves and sign-out.
+- Existing Settings tests verify profile persistence, failed-save rollback,
+  all eight themes, the fixed Preview/Stop rectangle and keyboard focus. Layout
+  checks pass at 320×740, 393×852, 852×393 and 800×1280. Floating-reader checks pass.
+- A broader narration UI run stopped at a pre-existing test expectation that the
+  cross-inline word Contact is contained in a single highlight element. The DOM
+  uses separate marks for Con and tact. An exploratory correction allowed that
+  check to pass, after which an unrelated selection-toolbar geometry check failed.
+  No narration test or highlight implementation changes are included in this update.
+  See narration-ui-baseline-comparison.json for the original-source comparison.
+- Built 2.3.36 (266), verified APK v2/v3 signatures, 16 KiB ZIP alignment,
+  package/version, unchanged signing certificate, and all 52 assets against the
+  final source. Native Java, resources, study data and signing key are unchanged.
+- Actual phone audio, Android installation/update and physical long-press behavior
+  were not tested. Browser speech tests use controlled synthesis callbacks.
+
+# Validation for version 2.3.35 (265) — 28 October 2026
+
+**76 automated checks passed:** core 32, reading preferences/backups 7,
+narration offsets/plans 6, highlight edits 8, Settings/reader UI 15 and
+floating-reader UI 8. All ten bundled JavaScript files passed syntax checks.
+Earlier results below and unrelated reports in this source archive are historical.
+
+- Settings uses one fixed-size button for Preview voice and Stop reading. Its
+  rectangle stays identical and keyboard focus remains on the button. Stop is
+  visible only while the test voice plays; pause, completion, errors, explicit
+  stop, navigation and background cancellation restore Preview.
+- Refresh voices starts hidden, appears after a successful voice/speed change
+  or opening Phone voice settings, and hides synchronously when clicked. Failed
+  and unchanged saves, theme edits, sound-effects edits and automatic catalog
+  callbacks do not reveal it. Pending refresh survives Settings navigation and
+  resets on sign-out/profile changes or reload. The actual preferences remain
+  saved and encrypted as before.
+- Refresh uses a dedicated amber background (#ffc400), dark text and a dark
+  border across all eight themes; measured text contrast exceeds 4.5:1.
+- Measured the exact same Preview/Stop rectangle at 320×740, 393×852, 852×393
+  and 800×1280 in light and dark themes. Reviewed phone screenshots and verified
+  no horizontal overflow. Existing reader and floating-control regressions pass,
+  including stale callbacks and cancellation. No browser JavaScript errors.
+- UI automation uses controlled Android speech callbacks in Chrome Headless
+  Shell 131. Actual on-device speech playback and Android installation/update
+  were not tested.
+- Recompiled all native sources and built 2.3.35 (265). Verified APK v2/v3
+  signatures, 16 KiB alignment, package/version and byte-for-byte bundled assets.
+  Existing signing key/package, native source, resources, study data, recordings,
+  profile storage and backup formats are unchanged from the supplied 2.3.34 source.
+
+See validation-summary.json, preferences-ui-test-report.json,
+floating-reader-ui-test-report.json, build-info.json and apk-update-verification.json.
+
+# Clean rebuild of version 2.3.18 — 25 October 2026
+
+- Recompiled all five native Java sources from the attached v2.3.18 source,
+  regenerated DEX and resources, repackaged all assets, aligned and signed a fresh APK.
+- Used Android API 36 revision 2, Android build-tools 36.0.0, Eclipse ECJ 3.42.0
+  and OpenJDK 17. The package, version (2.3.18 / 248) and signing key are retained.
+- 53 pure automated checks passed: core 32, preferences/backups 7,
+  narration mapping/plans 6 and highlight edits 8. All eight JavaScript files
+  passed syntax checks. Lesson coverage verified 984 questions in 100 topic lessons.
+- Verified APK v2/v3 signatures, 16 KiB ZIP alignment, package/version/title,
+  unchanged signing certificate and all bundled assets against source.
+- App code, resources, lessons, questions and build scripts match the attachment.
+  Only build/verification metadata and this rebuild record were refreshed.
+- Browser UI suites, Android installation, physical speech playback and native
+  long-press interaction were not repeated for this rebuild. Earlier results below
+  are historical.
+
+See build-info.json, validation-summary.json and apk-update-verification.json.
+
+# Validation for version 2.3.18 — 24 October 2026
+
+**8 focused floating-reader checks passed.** Also exercised profile creation,
+password sign-in, opening/closing Glossary during study, and returning to the
+profile chooser after sign-out. Full unrelated suites were not repeated.
+
+- Glossary is hidden on Choose your user profile at initial load and after
+  signing out. It returns on the other profile forms and study screens.
+- The subtitle includes a hard line break immediately after Guide. Visually
+  inspected the chooser at 320x740 and 393x852: the subtitle uses two lines,
+  ending its first line with Guide and starting its second with And Reference.
+- The chooser's title/subtitle sizes are 16/10.56 px at 320 px and 16.8/12.16 px
+  at 393 px, compared with 9.76/7.36 px and 11.52/8.8 px previously. Wider layouts
+  use 19.2/14.4 px. Other screens also use larger branding fonts.
+- Reviewed 16 combinations of chooser, Add New User, password and study screens
+  across 320x740, 393x852, 852x393 and 800x1280. Text remains within the taller
+  header and separate from Glossary; no horizontal overflow or JavaScript errors.
+- Existing floating-reader checks confirm the pause/play control stays below the
+  taller header, fits phone/landscape/tablet layouts, synchronizes with inline
+  controls, and uses exactly 70% opacity over text. Cancellation and profile
+  changes still clear it. Automated speech tests use controlled engine callbacks.
+- Built 2.3.18 (248), verified APK v2/v3 signatures and 16 KiB ZIP alignment, checked
+  package/version/application label, and compared bundled assets with final source.
+  Existing package/signing key, study data, profile storage and backups are retained.
+- Updated the existing Android smoke workflow to open Glossary from Add New User
+  rather than the chooser; the native emulator workflow was not run this release.
+- Physical phone installation, native long-press interaction and actual speech
+  synchronization remain untested. Earlier validation records are historical.
+
+See floating-reader-ui-test-report.json, apk-update-verification.json and
+validation-summary.json. Earlier validation records follow as history.
+
+# Validation for version 2.3.17 — 24 October 2026
+
+This release changes product-title wording only. Full functional suites were
+not repeated, and earlier test counts and reports below are historical.
+
+- Confirmed the complete display title “Canadian Amature Radio Unofficial Basic
+  Certificate Study Guide And Reference” in the page title, header home-button
+  label, Android application label and Settings/About copy. The visible subtitle
+  is exactly “Unofficial Basic Certificate Study Guide And Reference.”
+- Rendered and visually reviewed the header at 320x740 and 393x852, with layout
+  dimensions also reviewed at 852x393 and 800x1280. The subtitle wraps within the
+  header, remains separate from Glossary and introduces no horizontal overflow.
+  No JavaScript errors occurred during this review.
+- Built 2.3.17 (247), verified APK v2/v3 signatures and 16 KiB ZIP alignment, checked
+  package/version/label through Android tooling, and compared every bundled asset
+  byte-for-byte with final source. The existing package and signing key are retained.
+- Official questions, course/reference data, saved-highlight handling, narration,
+  floating pause/play, themes, profile storage and backup formats are unchanged.
+- Product-name references in bundled recovery-message source templates are updated;
+  the deployed email service was not changed by this app-label release.
+- Physical phone installation and launcher presentation remain untested.
+
+See apk-update-verification.json and validation-summary.json.
+Earlier validation records follow as history.
+
+# Validation for version 2.3.16 — 24 October 2026
+
+**106 focused automated checks passed:** core 32, preferences/backups 7,
+narration offsets/plans 6, highlight edits 8, settings/reader UI 12,
+saved-highlight UI 17, read-along UI 16, and floating-reader UI 8.
+Earlier unrelated reports remain historical; not every bundled suite was repeated.
+
+- The fixed 52-pixel Pause / Play control appears below the app header near the
+  top-left corner during narration and voice preview. It stays visible while
+  paused, synchronizes with inline controls, supports keyboard activation and
+  resumes from the current spoken word. It stays fixed while scrolling.
+- Measured exactly 0.7 opacity over visible text and 1.0 over empty space, including
+  a container whose text lies outside the control. Mutating the text layout,
+  scrolling and resizing trigger an update. Collision checks use text ranges;
+  lesson text and saved progress are not altered.
+- Completion, stop, engine errors, navigation, page/background cancellation and
+  sign-out hide the control. Late callbacks cannot bring it back or affect a new
+  request. Voice preview supports floating pause/play without changing progress.
+- Verified 320x740 and 393x852 phones, 852x393 landscape and 800x1280 tablets in
+  dark/light themes. The control remains below the header and inside the viewport.
+- Visually inspected the floating control and 70% overlap state. Inspected the
+  Options/Settings page with its current-user banner and Profile/Settings buttons
+  hidden; its settings, profile-management card and bottom navigation remain usable.
+- Saved highlight recolouring, removal, persistence and backups passed regression.
+  Word mapping, white-on-black speech highlights, timing fallbacks, reading speed,
+  voice choices, themes and profile isolation passed. No JavaScript errors.
+- Built 2.3.16 (246) with the existing package and signing key. Verified APK v2/v3
+  signatures, 16 KiB ZIP alignment, manifest identity/version, and all bundled
+  assets against final source. Official questions, course/reference data, stored
+  highlight logic and narration offset mapping are unchanged from the attachment.
+- Physical phone installation, audio synchronization and Android long-press
+  interaction remain untested. Automated speech checks use controlled callbacks.
+
+See floating-reader-ui-test-report.json, preferences-ui-test-report.json,
+narration-ui-test-report.json, highlight-ui-test-report.json,
+validation-summary.json and apk-update-verification.json.
+Earlier validation records follow as history.
+
+# Validation for version 2.3.15 — 24 October 2026
+
+**98 focused automated checks passed:** core 32, preferences/backups 7,
+narration offsets/plans 6, highlight edits 8, settings/reader UI 12,
+saved-highlight UI 17, and read-along UI 16. Earlier unrelated reports below
+remain historical; this is not a claim that every bundled suite was repeated.
+
+- Highlighter Colour offers eight named choices and saves the preference per
+  profile. On selected saved marks it immediately recolours only the highlighted
+  portions, including when the chosen colour already matches the preference.
+- Remove Highlight appears only when selected lesson text intersects a saved
+  mark. Partial removal retains both surrounding portions and their colours.
+  It subtracts all overlapping layers so an older mark cannot reappear beneath it.
+- Exercised native selection-state and action bridges after browser selection
+  clearing and ActionMode dismissal. The colour dialog retains its own checked
+  selection anchor; Close and Back cancel without changing existing marks.
+- Verified failed recolour/removal saves preserve prior marks and preferences,
+  coloured edits survive locked reopening, profiles remain separate, and both
+  progress merging and encrypted User backups retain the edited marks.
+- The spoken word has a black background and white text in light and dark themes.
+  Modern custom highlights and the older-WebView glyph overlay both preserve the
+  lesson DOM. Recolouring/removal during narration retain its current word.
+- Checked repeated words, inline fonts, visible/hidden answers, symbol offsets,
+  actual callback timing/fallbacks, stale callbacks and profile cancellation.
+  The four-action selection toolbar and eight-colour dialog fit small phones,
+  landscape and tablets without horizontal overflow. No JavaScript errors.
+- Inspected the white-on-black cursor and fallback visually. Built version 2.3.15
+  (245), verified APK v2/v3 signatures and 16 KiB ZIP alignment, and compared all
+  bundled assets byte-for-byte with final source. The existing signing key,
+  official question bank, course content and reference data are unchanged.
+- Physical Android installation/update, native long-press menu interaction and
+  actual speech synchronization still require a phone check. Speech UI tests use
+  controlled engine callbacks; engines without timing may pause between words.
+
+See tests/highlight-edits.test.cjs, highlight-ui-test-report.json,
+narration-ui-test-report.json, preferences-ui-test-report.json,
+validation-summary.json and apk-update-verification.json.
+Earlier validation records follow as history.
+
+# Validation for version 2.3.14 — 24 October 2026
+
+**83 automated checks passed:** core 32, preferences/backups 7, narration plans
+and offsets 6, settings/reader UI 12, saved-highlights UI 12, and read-along UI 14.
+
+- The temporary spoken-word cursor follows native `onRangeStart` and browser word
+  boundaries. Missing or phrase-only timing switches to individual word utterances
+  and their actual start events. No estimated word-duration timer is used.
+- Verified source mapping through inline formatting, whitespace, repeated words,
+  decimals, spoken symbols and existing saved highlights. Cursor updates do not
+  rewrite lesson text, saved anchors or exported progress data.
+- Read from here starts or moves speech to the selected occurrence. Exercised
+  the browser selection toolbar and the Android selection-menu bridge, including
+  a word spanning inline nodes, stopped/active reading and saved highlights.
+- Pause clears the cursor and resumes from the current word. Stop, completion,
+  navigation, sign-out and background handling cancel or clear temporary state.
+  Late callbacks cannot change another request or profile.
+- Checked unavailable selection outside lessons and during dialogs, hidden answers
+  and closed supplementary content, light/dark themes, small phones, landscape,
+  tablets, and the visual overlay fallback for older WebViews. No JavaScript errors.
+- Built version 2.3.14 (244), compiled the native range callback and selection action,
+  verified APK v2/v3 signatures and 16 KiB ZIP alignment, and compared every bundled
+  asset with the final source. Original signing key, official bank, course content
+  and reference data are unchanged.
+- Actual speech synchronization, physical long-press behavior and installation on
+  a phone remain untested. Automated UI checks use controlled engine callbacks.
+  A voice without usable word timing can have brief pauses between words.
+
+See narration-ui-test-report.json, preferences-ui-test-report.json,
+highlight-ui-test-report.json, validation-summary.json and apk-update-verification.json.
+Earlier validation records follow as history.
+
+# Validation for version 2.3.13 — 24 October 2026
+
+**63 automated checks passed:** core 32, encrypted profiles 12, preference
+validation/migration/backups 7, and settings/reading browser checks 12.
+
+- Settings has one available-voice list and one Preview voice button. The sex
+  selection and separate voice slots have been removed. Existing 2.3.12 profiles
+  and backups retain their previously active saved voice when opened or restored.
+- Speech speed uses a slider from 0.5× to 2× in 0.05 increments. Its numeric value
+  updates during adjustment; the setting saves when the adjustment is committed.
+  Preview and lesson narration use the saved voice and speed.
+- Voice, speed and theme choices survive reopening and encrypted User restoration,
+  remain separate between profiles, and keep current choices during progress merge.
+- Checked saved/unavailable voices, cancellation and stale callbacks, long lessons,
+  hidden-answer exclusion, eight themes and text contrast, and phone, landscape
+  and tablet layouts. No JavaScript errors occurred.
+- Native Android code compiled against SDK 36. Verified APK v2/v3 signatures,
+  16 KiB ZIP alignment, the unchanged signing key and every bundled asset against
+  the final source. Official questions, course data and reference data are unchanged.
+- Physical Android installation/update and actual speech playback remain untested.
+  Prior release results below are historical; unrelated suites were not repeated.
+
+See validation-summary.json, preferences-ui-test-report.json and
+apk-update-verification.json. Earlier validation records follow.
+
+# Validation for version 2.3.12 — 24 October 2026
+
+**84 automated checks passed in the focused suites listed below.** Additional
+live government-source comparisons and Android build verification also passed.
+Earlier release records below are historical and were not all repeated.
 
 | Suite | Passed |
 | --- | ---: |
-| Course, quiz, progress and RF core | 32 |
-| Profile encryption, transfer and deletion | 15 |
-| Native / Web Crypto compatibility | 1 |
-| Python recovery service | 7 |
-| Study flows and chapter badges | 40 |
-| Profile and email recovery browser flows | 15 |
-| Password-free deletion browser flows | 6 |
-| Eight-colour highlights and backups | 12 |
-| Formula detail pages | 8 |
-| On-air terminology and glossary integration | 9 |
-| Cloudflare Worker recovery | 17 |
-| Cloudflare setup UI | 1 |
+| Course, quizzes, progress and RF core | 32 |
+| Encrypted profiles, isolation and transfer | 12 |
+| Preferences migration, validation, backups and speech chunking | 7 |
+| Voice controls, theme contrast, profile switching and mobile layouts | 12 |
+| Government attribution pages and chapter sources | 9 |
+| Lesson highlights, profile isolation and both backup types | 12 |
 
-- Deleting a user requires no password, before login or in Profile settings.
-  The confirmation identifies the selected user and contains no password input.
-  Cancel and Android Back retain the exact saved vault.
-- Deleting a locked user preserves the other user’s full encrypted record and
-  work. The user remains deleted after reload. An exported User backup still
-  restores that profile, including its avatar, call sign, highlights and work.
-- Deleting the signed-in user flushes pending writes, removes its vault entry,
-  zeroes the in-memory key and clears private study state. Lifecycle saves
-  cannot recreate it. Deleting the last user still permits new profiles without
-  reclaiming previously migrated/deleted progress.
-- A simulated storage failure leaves both the saved vault and signed-in session
-  intact; cancellation and retry work. Invalid or repeated deletions fail safely.
-- Inspected the 393 px confirmation screenshot. Layout checks cover 320/393 px
-  phones, landscape 852×393 and tablet 800×1280 without horizontal overflow.
-- Existing profiles, backups, recovery, highlights, tests, notes, glossary,
-  formulas and on-air terms passed regression. Question data and teaching
-  content are byte-identical to the supplied 2.3.11 source.
-- Physical Android installation, native menus, camera/document providers and
-  live external email delivery remain untested. Local recovery fixtures were
-  used. Package identity, signatures, alignment and assets are checked during
-  packaging; see apk-update-verification.json for the resulting evidence.
+- All eight themes apply to the selected profile. Measured normal-text contrast
+  for body, secondary text and primary buttons is at least 4.5:1 in each palette.
+  Checked 320/393 px phones, 852×393 landscape and 800×1280 tablet layouts.
+- Female/male slots, selected sex, speed and theme survive reopening and encrypted
+  User export/import. Another profile starts with its own defaults. Progress
+  merge keeps the current user's preferences. Failed writes restore earlier choices.
+- The shipped reading UI was tested with a controllable Android speech bridge:
+  both voice slots/previews, bounded long-lesson chunks, completion, pause/resume,
+  stop, stale callbacks, unavailable voice data and phone-settings errors.
+  Navigation, sign-out and background handling cancel narration. Hidden answers,
+  closed supplementary text and button labels are excluded from narration.
+- Reading controls are outside the lesson text. Existing highlight anchors,
+  colours, profile isolation, progress merges and encrypted User restores passed.
+  The existing highlight import test now waits for persistence/dialog completion
+  before navigating again, avoiding an asynchronous test race.
+- The 12 government reference pages and reproduction terms were checked live for
+  titles, author metadata, editions and dates. All 984 bilingual question/answer
+  records and 100 topic groups match ISED's delimited bank, including its SHA-256.
+- Android native code compiled against SDK 36. Built APK 2.3.12 (242), checked
+  v2/v3 signatures and 16 KiB ZIP alignment, and compared every bundled asset
+  byte-for-byte with the final source. Existing package and signing key match
+  the supplied project. No new runtime permission was added for speech.
+- The supplied legacy study-flow suite has a timing-sensitive failed-note-save
+  assertion reproduced in the supplied source in this Chromium runtime. It was
+  not counted as passing. Recovery/network and unrelated formula/on-air suites
+  were not repeated; their earlier reports remain as history.
+- Physical Android installation/update, actual speech playback, native long-press
+  interaction and live recovery email delivery remain untested. Voice sex is
+  assigned by the user after preview unless the installed engine supplies an
+  explicit label. Voices must be available on the user's phone.
 
-Earlier release records follow as history.
+See validation-summary.json, preferences-ui-test-report.json,
+preferences.test.cjs in tests/, government-source-verification.json and
+apk-update-verification.json. Earlier validation records follow.
 
 # Validation for version 2.3.11
 
@@ -617,3 +1179,31 @@ source-only addition. App assets, native code, package and APK are unchanged.
 - Install with **Update** over the existing app. Do not uninstall or clear app
   data. Native installation and Android lifecycle/device behavior still need
   verification on a phone; browser checks do not substitute for that.
+
+## 2.3.27 first-login audio
+
+Profile, sound and password-error Node tests passed (19 tests). Covers first successful login, app restart, per-user isolation, failed passwords/writes, older profiles and mute. First-welcome MP3 matches the supplied recording byte-for-byte. APK not built for this source update; physical Android audio playback not tested.
+
+## 2.3.28 home ITU chart
+
+Verified 26 table rows, three columns, alphabetical order and placement directly below the home hero. Existing phonetics playback test passes. JavaScript syntax check passes. Pronunciations checked against ISED RIC-22 section 4.3. APK not rebuilt; physical-device layout not tested.
+
+## 2.3.31 ITU TTS controls
+
+Eight existing preferences/phonetics tests passed. A mocked Android bridge verified 26 phrase calls A–Z, pause/resume, completion and restart. JavaScript syntax check passed. Physical Android TTS playback has not been tested; APK not rebuilt.
+
+
+## 2.3.33 — paused TTS selection
+
+- Passed 26 automated checks across narration offsets (6), preferences (7), saved-highlight edits (8), paused selection (4), and phonetics (1).
+- JavaScript syntax checks passed for changed production scripts and the extended narration UI suite.
+- Added UI regression scenarios for selecting the later repeated word, floating Play after selection dismissal, and inline Resume after saving a highlight. These browser scenarios could not run in this environment: Chromium was absent and its download returned an invalid archive.
+- Physical Android TTS and long-press interaction remain untested for this source update. No APK was built for this change.
+
+
+## 2.3.34 — ITU at 80% speed
+
+- Runtime checks confirm ITU starts and resumes at 0.8× while other speech retains the profile rate.
+- Paused-selection and phonetics tests passed (5 checks).
+- Built version 2.3.34 (264); APK v2/v3 signatures and alignment verified using the existing development signing identity. Bundled assets match the source.
+- Physical phone audio remains untested.

@@ -44,7 +44,7 @@ class Service:
         code_hash=self.digest(row['id']+':'+purpose+':'+code)
         self.db.execute('UPDATE users SET code_hash=?,code_purpose=?,expires=?,tries=0,last_sent=? WHERE id=?',(code_hash,purpose,now+600,now,row['id']));self.db.commit()
         subject='Canadian radio workbook: '+('verify recovery email' if purpose=='verify' else 'password reset code')
-        text=f'Your {"email verification" if purpose=="verify" else "password reset"} code is: {code}\n\nEnter it in the Canadian Amature Radio Study Guide and Reference app.\nIt expires in 10 minutes and can be used once.\n\nIf you did not request this code, ignore this message. Never share the code.\nNo password or study progress is included in this email.'
+        text=f'Your {"email verification" if purpose=="verify" else "password reset"} code is: {code}\n\nEnter it in the Canadian Amature Radio Unofficial Basic Certificate Study Guide And Reference app.\nIt expires in 10 minutes and can be used once.\n\nIf you did not request this code, ignore this message. Never share the code.\nNo password or study progress is included in this email.'
         try:self.mailer(row['email'],subject,text)
         except Exception:
             self.db.execute('UPDATE users SET code_hash=NULL,expires=0 WHERE id=?',(row['id'],));self.db.commit()

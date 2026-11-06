@@ -1,7 +1,7 @@
 {
-  "app": "Canadian Amature Radio Study Guide and Reference",
-  "version": "2.3.12",
-  "version_code": 242,
+  "app": "Canadian Amature Radio Unofficial Basic Certificate Study Guide And Reference",
+  "version": "2.3.45",
+  "version_code": 275,
   "package": "ca.kevin.maplewave",
   "min_sdk": 26,
   "target_sdk": 36,
@@ -13,8 +13,8 @@
   "covered_questions": 984,
   "detailed_lessons": 100,
   "lesson_coverage_verified": true,
-  "apk_bytes": 2520422,
-  "apk_sha256": "14a84193c182619304f8780829e9e4acc9af0841948001f92e1ec19b9d22318f",
+  "apk_bytes": 4493501,
+  "apk_sha256": "ef6c4cede778d7c1e86e657761bfdb6cc23c747513be98567b6b9a87d122c05c",
   "permissions": [
     "android.permission.REQUEST_INSTALL_PACKAGES",
     "android.permission.INTERNET"

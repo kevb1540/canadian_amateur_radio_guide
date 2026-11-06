@@ -15,18 +15,4 @@ recovery_service/*.env
 *.sqlite-*
 *.sqlite3-*
 
-# Private signing keys, service credentials and user backups
-*.keystore
-*.jks
-*.p12
-*.pfx
-*.pem
-*.key
-.env
-.env.*
-.dev.vars*
-*.carprog
-__pycache__/
-*.pyc
-node_modules/
-.wrangler/
+/android_development/debug.keystore

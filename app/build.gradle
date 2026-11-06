@@ -6,8 +6,8 @@ android {
         applicationId 'ca.kevin.maplewave'
         minSdk 26
         targetSdk 36
-        versionCode 242
-        versionName '2.3.12'
+        versionCode 275
+        versionName '2.3.45'
     }
     signingConfigs {
         development {

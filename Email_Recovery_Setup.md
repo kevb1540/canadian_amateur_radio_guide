@@ -1,6 +1,6 @@
 # Cloudflare + Brevo email recovery setup
 
-For Canadian Amature Radio Study Guide and Reference, APK 2.3.0 (230).  
+For Canadian Amature Radio Unofficial Basic Certificate Study Guide And Reference, APK 2.3.0 (230).  
 ©️ Kevin W. Brown 2026 · Hosting addition: 16 October 2026
 
 Kevin, these steps connect your Cloudflare and Brevo accounts to the APK you
